@@ -1,0 +1,11 @@
+Daniel A withdrew $1000 in their checking.
+Miguel Angel deposited $100 in their checking.
+Miguel Angel deposited $-5 in their savings.
+Miguel Angel withdrew $200 in their checking.
+Miguel Angel withdrew $-5 in their checking.
+Miguel Angel transfered $1 from checking to savings.
+Mickey Mouse deposited $1000 in their checking.
+Mickey Mouse sent $5.50 to Donald Duck
+Mickey Mouse sent $5.50 to Mickey Mouse
+Hernan Garcia deposited $500 in their checking.
+Hernan Garcia deposited $500 in their savings.

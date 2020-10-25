@@ -1,0 +1,13 @@
+BANK STATEMENT FOR:
+Hernan Garcia
+Address: "500 W. University Ave, El Paso, TX 79968"
+Phone Number: (915) 747-5020
+Current Account(s) Balance: 
+Checking: 635.23
+Savings: 3511.8
+Credit: -990.67
+Transaction Records:
+Hernan Garcia Made a Balance Inquiry
+Hernan Garcia Deposited $500.0
+Hernan Garcia Deposited $500.0
+Date of records: 2020/10/19 23:40:16
