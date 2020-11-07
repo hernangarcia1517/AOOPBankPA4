@@ -530,12 +530,19 @@ public class Bank {
                 String desiredAction = inputReader.readLine();
                 switch(desiredAction){
                     case "1":
-                        System.out.print("Enter first name of desired customer: ");
-                        String customerFirstName = inputReader.readLine();
-                        System.out.println();
-                        System.out.print("Enter last name of desired customer: ");
-                        String customerLastName = inputReader.readLine();
-                        String desiredCustomerId = customerIds.get(customerFirstName + " "+ customerLastName);
+                        boolean correctUserToInquire = false;
+                        String customerFirstName = "";
+                        String customerLastName = "";
+                        while(!correctUserToInquire){
+                            System.out.print("Enter first name of desired customer: ");
+                            customerFirstName = inputReader.readLine();
+                            System.out.println();
+                            System.out.print("Enter last name of desired customer: ");
+                            customerLastName = inputReader.readLine();
+                            if(customerIds.containsKey(customerFirstName + " " + customerLastName)) correctUserToInquire = !correctUserToInquire;
+                            else System.out.println("User does not exist, try again.");
+                        }
+                        String desiredCustomerId = customerIds.get(customerFirstName + " " + customerLastName);
                         Customer desiredCustomer = data.get(desiredCustomerId);
                         System.out.println();
                         System.out.println("Customer: " + desiredCustomer.getName());
@@ -548,14 +555,21 @@ public class Bank {
                         System.out.println();
                         break;
                     case "2":
-                        System.out.print("Enter first name of customer: ");
-                        String statementCustomerFirstName = inputReader.readLine();
-                        System.out.println();
-                        System.out.print("Enter last name of customer: ");
-                        String statementCustomerLastName = inputReader.readLine();
-                        System.out.println();
+                        boolean correctUserBankStatement = false;
+                        String statementCustomerFirstName = "";
+                        String statementCustomerLastName = "";
+                        while(!correctUserBankStatement){
+                            System.out.print("Enter first name of desired customer: ");
+                            statementCustomerFirstName = inputReader.readLine();
+                            System.out.println();
+                            System.out.print("Enter last name of desired customer: ");
+                            statementCustomerLastName = inputReader.readLine();
+                            if(customerIds.containsKey(statementCustomerFirstName + " " + statementCustomerLastName)) correctUserBankStatement = !correctUserBankStatement;
+                            else System.out.println("User does not exist, try again.");
+                        }
                         String statementCustomerId = customerIds.get(statementCustomerFirstName + " " + statementCustomerLastName);
                         Customer statementCustomer = data.get(statementCustomerId);
+                        System.out.println();
                         BankStatement customerBankStatement = new BankStatement(statementCustomer);
                         customerBankStatement.createBankStatement(statementCustomerFirstName+statementCustomerLastName+"statement"+(new SimpleDateFormat("yyyy_MM_dd")).format(new Date()));
                         break;
