@@ -44,21 +44,30 @@ public class Bank {
 	public static void readCVSFile(HashMap<String, Customer> data, HashMap<String, String> customerIds,
 			BufferedReader br, String currentUser) {
 		try {
-			br = new BufferedReader(new FileReader("CS 3331 - Bank Users 4(1).csv")); // Hardcoded File Give prompt
+			br = new BufferedReader(new FileReader("CS 3331 - Bank Users 4.csv")); // Hardcoded File Give prompt
 																						// instead
 			int count = 0;
 			HashMap<String, Integer> inputCorrector = new HashMap<String, Integer>();
 			while ((currentUser = br.readLine()) != null) {
 				if (count == 0) {
 					String[] headers = currentUser.split(",");
-					boolean seenAddress = false;
+                    boolean seenAddress = false;
+                    boolean seenDateOfBirth = false;
 					for (int i = 0; i < headers.length; i++) {
-						if (seenAddress)
+                        if(seenAddress && seenDateOfBirth){
+                            inputCorrector.put(headers[i], i + 3);
+                        }else if (seenAddress){
 							inputCorrector.put(headers[i], i + 2);
-						else
+                        }else if(seenDateOfBirth){
+                            inputCorrector.put(headers[i], i + 1);
+                        }else{
 							inputCorrector.put(headers[i], i);
-						if (headers[i].equals("Address"))
+                        }
+						if (headers[i].equals("Address")){
 							seenAddress = true;
+                        }else if(headers[i].equals("Date of Birth")){
+                            seenDateOfBirth = true;
+                        }
 						// System.out.println(headers[i] +" "+ inputCorrector.get(headers[i]));
 					}
 				}
@@ -88,16 +97,17 @@ public class Bank {
 							createCreditAccount(Integer.parseInt(VALS[inputCorrector.get("Credit Account Number")]),
 									Double.parseDouble(VALS[inputCorrector.get("Credit Max")]),
 									Double.parseDouble(VALS[inputCorrector.get("Credit Starting Balance")]), 0.0) // Credit
-					));
-					customerIds.put(data.get(VALS[0]).getName(), VALS[0]);
-					if (Integer.parseInt(VALS[0]) > customerIdTracker)
-						customerIdTracker = Integer.parseInt(VALS[0]);
-					if (Integer.parseInt(VALS[4]) > checkingAccountIdTracker)
-						checkingAccountIdTracker = Integer.parseInt(VALS[4]);
-					if (Integer.parseInt(VALS[1]) > savingsAccountIdTracker)
-						savingsAccountIdTracker = Integer.parseInt(VALS[1]);
-					if (Integer.parseInt(VALS[5]) > creditAccountIdTracker)
-						creditAccountIdTracker = Integer.parseInt(VALS[5]);
+                    ));
+                    
+					customerIds.put(data.get(VALS[inputCorrector.get("Identification Number")]).getName(), VALS[inputCorrector.get("Identification Number")]);
+					if (Integer.parseInt(VALS[inputCorrector.get("Identification Number")]) > customerIdTracker)
+						customerIdTracker = Integer.parseInt(VALS[inputCorrector.get("Identification Number")]);
+					if (Integer.parseInt(VALS[inputCorrector.get("Checking Account Number")]) > checkingAccountIdTracker)
+						checkingAccountIdTracker = Integer.parseInt(VALS[inputCorrector.get("Checking Account Number")]);
+					if (Integer.parseInt(VALS[inputCorrector.get("Savings Account Number")]) > savingsAccountIdTracker)
+						savingsAccountIdTracker = Integer.parseInt(VALS[inputCorrector.get("Savings Account Number")]);
+					if (Integer.parseInt(VALS[inputCorrector.get("Credit Account Number")]) > creditAccountIdTracker)
+						creditAccountIdTracker = Integer.parseInt(VALS[inputCorrector.get("Credit Account Number")]);
 				}
 				count++;
 			}
