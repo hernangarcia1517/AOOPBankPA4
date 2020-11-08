@@ -1004,7 +1004,7 @@ try {
 
 		data.entrySet().forEach(entry -> {
 			lines.add(entry.getValue().getSavingsAccount().getAccountNumber() + "," + entry.getValue().getLastName()
-					+ "," + (entry.getValue().getCustomerID() + entry.getValue().getDateOfBirth()[0] + entry.getValue().getDateOfBirth()[1])+ "," +
+					+ "," + entry.getValue().getCustomerID() + "," + (entry.getValue().getDateOfBirth()[0] + entry.getValue().getDateOfBirth()[1])+ "," +
 					+ entry.getValue().getCheckingAccount().getAccountNumber() + ","
 					+ entry.getValue().getCreditAccount().getAccountNumber() + "," + entry.getValue().getPhoneNumber()
 					+ "," + entry.getValue().getCheckingAccount().getCurrentBalance() + ","
