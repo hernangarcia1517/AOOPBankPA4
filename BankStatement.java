@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class BankStatement{
+public class BankStatement implements Printable{
     Customer customer;
     Checking checking;
     Savings savings;
@@ -39,6 +39,7 @@ public class BankStatement{
         if(checking != null) hasChecking = true;
         if(credit != null) hasCredit = true;
         try{
+            print();
             writer= new FileWriter(statementName +".txt");
             writer.write("BANK STATEMENT FOR:");
             writer.write("\n");
@@ -51,12 +52,14 @@ public class BankStatement{
             writer.write("Current Account(s) Balance: ");
             writer.write("\n");
             if(checking != null){
+                printChecking();
                 writer.write("Checking: " + checking.getCurrentBalance());
                 writer.write("\n");
             }
             writer.write("Savings: " + savings.getCurrentBalance());
             writer.write("\n");
             if(credit != null){
+                printCredit();
                 writer.write("Credit: " + credit.getCurrentBalance());
                 writer.write("\n");
             }
@@ -103,5 +106,18 @@ public class BankStatement{
                 }
             }
         }
+    }
+
+    @Override
+    public void print(){
+        System.out.println("Writing Bank Statement, please wait...");
+    }
+    @Override 
+    public void printChecking(){
+        System.out.println("Writing customer's checking account statement...");
+    }
+    @Override
+    public void printCredit(){
+        System.out.println("Writing customer's credit account statement...");
     }
 }

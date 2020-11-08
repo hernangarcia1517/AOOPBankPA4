@@ -29,6 +29,13 @@ public class Credit extends Account{
         return interestRate;
     }
     /**
+     * This method is to return the credit line
+     * @return creditLine attribute
+     */
+    public double getCreditLimit(){
+        return creditLine;
+    }
+    /**
      * This method is to check is the incoming funds do not exced the amount owed
      * @param receivingBalance these are the incoming funds
      * @return if incoming funds do not exced mount owed we are returning a boolean

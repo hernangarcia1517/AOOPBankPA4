@@ -3,7 +3,7 @@
  * @version 1.1.0
  * @since October 19, 2020
  */
-public class Customer extends Person{
+public class Customer extends Person implements Printable{
     private String dateOfBirth;
     private String phoneNumber;
     private String[] address;
@@ -78,5 +78,32 @@ public class Customer extends Person{
      */
     public Credit getCreditAccount(){
         return creditAccount;
+    }
+
+    @Override
+    public void print(){
+        System.out.println(super.getName() + "'s savings account:");
+        System.out.println("Savings account balance: " + savingAccount.getCurrentBalance());
+    }
+
+    @Override
+    public void printChecking(){
+        if(checkingAccount != null){
+            System.out.println(super.getName() + "'s checking account:");
+            System.out.println("Checking account balance: " + checkingAccount.getCurrentBalance());
+        }else{
+            System.out.println(super.getName() + " is not associated with a checking account.");
+        }
+    }
+    
+    @Override
+    public void printCredit(){
+        if(creditAccount != null){
+            System.out.println(super.getName() + "'s credit account:");
+            System.out.println("Credit Limit:" + creditAccount.getCreditLimit());
+            System.out.println("Outstanding Balance: " + creditAccount.getCurrentBalance());
+        }else{
+            System.out.println(super.getName() + " is not associated with a credit account.");
+        }
     }
 }
