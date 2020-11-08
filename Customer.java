@@ -4,10 +4,10 @@
  * @since October 19, 2020
  */
 public class Customer extends Person{
-    private String dateOfBirth;
     private String phoneNumber;
     private String password;
     private String email;
+    private String[] dateOfBirth;
     private String[] address;
     private Checking checkingAccount;
     private Savings savingAccount;
@@ -30,7 +30,7 @@ public class Customer extends Person{
      * @param savingsAccount Customer reference to savings account
      * @param creditAccount customer reference to credit account
      */
-    Customer(String firstName, String lastName, String customerID, String password, String email, boolean hasChecking, boolean hasSavings, String dateOfBirth, String phoneNumber, String[] address, Checking checkingAccount, Savings savingsAccount, Credit creditAccount){
+    Customer(String firstName, String lastName, String customerID, String password, String email, boolean hasChecking, boolean hasSavings, String[] dateOfBirth, String phoneNumber, String[] address, Checking checkingAccount, Savings savingsAccount, Credit creditAccount){
         super(firstName, lastName, customerID, hasChecking, hasSavings);
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
@@ -42,18 +42,18 @@ public class Customer extends Person{
         this.creditAccount = creditAccount;
     }
     /**
-     * This methos is to get the date of birth
-     * @return string array consisting of month day, year
-     */
-    public String getDateOfBirth(){
-        return dateOfBirth;
-    }
-    /**
      * Thismethod is to get the customer's phone number
      * @return String, the phone number
      */
     public String getPhoneNumber(){
         return phoneNumber;
+    }
+    /**
+     * This methos is to get the date of birth
+     * @return string array consisting of month day, year
+     */
+    public String[] getDateOfBirth(){
+        return dateOfBirth;
     }
     /**
      * This method is to get the customer's address

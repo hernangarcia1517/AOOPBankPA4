@@ -68,14 +68,14 @@ public class Bank {
                         }else if(headers[i].equals("Date of Birth")){
                             seenDateOfBirth = true;
                         }
-						// System.out.println(headers[i] +" "+ inputCorrector.get(headers[i]));
+						System.out.println(headers[i] +" "+ inputCorrector.get(headers[i]));
 					}
 				}
 				if (count > 0) { // Omitting the first row, which should just be the headers
 					String[] VALS = currentUser.split(","); // This is going to create a String array, now we have to
 															// store it
 					// System.out.println(inputCorrector.get("Date of Birth"));
-					String dateOfBirth = VALS[inputCorrector.get("Date of Birth")];
+					String[] dateOfBirth = { VALS[inputCorrector.get("Date of Birth")], VALS[inputCorrector.get("Date of Birth") + 1]};
 					// System.out.println(inputCorrector.get("Address"));
 					String[] addressArray = { VALS[inputCorrector.get("Address")],
 							VALS[inputCorrector.get("Address") + 1], VALS[inputCorrector.get("Address") + 2] };
@@ -241,8 +241,13 @@ try {
 	System.out.print("Enter Last Name: ");
 	String customerLastName = inputReader.readLine();
 	System.out.println();
-	System.out.print("Enter Date of Birth (##-##-####): ");
-	String customerDOB = inputReader.readLine();
+	System.out.print("Enter Month of Birth");
+	String customerBirthMonth = inputReader.readLine();
+	System.out.println("Enter Day of Birth: ");
+	String customerBirthDay = inputReader.readLine();
+	System.out.println("Enter Year of Birth: ");
+	String customerBirthYear = inputReader.readLine();
+	String[] customerDOB = {customerBirthMonth + " " + customerBirthDay, customerBirthYear};
 	System.out.println();
 	System.out.print("Enter Adress (Street, City, ZIP Code):");
 	String customerAddress = inputReader.readLine(); // NEED TO VERIFY THE INPUT
@@ -999,7 +1004,7 @@ try {
 
 		data.entrySet().forEach(entry -> {
 			lines.add(entry.getValue().getSavingsAccount().getAccountNumber() + "," + entry.getValue().getLastName()
-					+ "," + entry.getValue().getCustomerID() + entry.getValue().getDateOfBirth() + ","
+					+ "," + (entry.getValue().getCustomerID() + entry.getValue().getDateOfBirth()[0] + entry.getValue().getDateOfBirth()[1])+ "," +
 					+ entry.getValue().getCheckingAccount().getAccountNumber() + ","
 					+ entry.getValue().getCreditAccount().getAccountNumber() + "," + entry.getValue().getPhoneNumber()
 					+ "," + entry.getValue().getCheckingAccount().getCurrentBalance() + ","
