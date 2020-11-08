@@ -35,6 +35,12 @@ public abstract class Person {
     public String getName(){
         return firstName + " " + lastName;
     }
+    public String getFirstName() {
+    	return firstName;
+    }
+    public String getLastName() {
+    	return lastName;
+    }
     /**
      * This method is to get th customer ID of the person
      * @return the customer ID

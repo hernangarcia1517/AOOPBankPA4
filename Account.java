@@ -76,11 +76,8 @@ public abstract class Account {
      * @param caseAction this is the action action that it is being used in
      */
     public void sendMoney(double sendingAmount, String caseAction){
-        if(sendingAmount <= 0.0){
+        if(sendingAmount <= 0.0 || sendingAmount > currentBalance){
             System.out.println("ERROR: Invalid Amount to Send");
-            return;
-        } else if(sendingAmount > currentBalance){
-            System.out.println("Insufficient Funds");
             return;
         }
         currentBalance -= sendingAmount;
