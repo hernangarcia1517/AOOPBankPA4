@@ -6,6 +6,8 @@
 public class Customer extends Person{
     private String dateOfBirth;
     private String phoneNumber;
+    private String password;
+    private String email;
     private String[] address;
     private Checking checkingAccount;
     private Savings savingAccount;
@@ -28,10 +30,12 @@ public class Customer extends Person{
      * @param savingsAccount Customer reference to savings account
      * @param creditAccount customer reference to credit account
      */
-    Customer(String firstName, String lastName, String customerID, boolean hasChecking, boolean hasSavings, String dateOfBirth, String phoneNumber, String[] address, Checking checkingAccount, Savings savingsAccount, Credit creditAccount){
+    Customer(String firstName, String lastName, String customerID, String password, String email, boolean hasChecking, boolean hasSavings, String dateOfBirth, String phoneNumber, String[] address, Checking checkingAccount, Savings savingsAccount, Credit creditAccount){
         super(firstName, lastName, customerID, hasChecking, hasSavings);
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.email = email;
         this.address = address;
         this.checkingAccount = checkingAccount;
         this.savingAccount = savingsAccount;
@@ -79,4 +83,10 @@ public class Customer extends Person{
     public Credit getCreditAccount(){
         return creditAccount;
     }
+	public String getPassword() {
+		return password;
+	}
+	public String getEmail() {
+		return email;
+	}
 }

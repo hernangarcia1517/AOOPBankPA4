@@ -44,7 +44,7 @@ public class Bank {
 	public static void readCVSFile(HashMap<String, Customer> data, HashMap<String, String> customerIds,
 			BufferedReader br, String currentUser) {
 		try {
-			br = new BufferedReader(new FileReader("CS 3331 - Bank Users 3(3).csv")); // Hardcoded File Give prompt
+			br = new BufferedReader(new FileReader("CS 3331 - Bank Users 4(1).csv")); // Hardcoded File Give prompt
 																						// instead
 			int count = 0;
 			HashMap<String, Integer> inputCorrector = new HashMap<String, Integer>();
@@ -74,6 +74,8 @@ public class Bank {
 							VALS[inputCorrector.get("First Name")], // First name
 							VALS[inputCorrector.get("Last Name")], // Last name
 							VALS[inputCorrector.get("Identification Number")], // Customer ID
+							VALS[inputCorrector.get("Password")],
+							VALS[inputCorrector.get("Email")],
 							true, // Has Checking
 							true, // Has Savings
 							dateOfBirth, // Date of birth
@@ -242,6 +244,9 @@ public class Bank {
 			String savingsStartingBalance = inputReader.readLine();
 			System.out.print("Would you like to create an additional account?[y/n]: ");
 			String createAdditional = inputReader.readLine();
+			
+			String email = "demo";
+			String password = "123";
 			if (createAdditional.equals("y")) {
 				System.out.println("To open a new checking account enter [1]\nTo open a new credit account enter [2]\n"
 						+ "To open a new checking and credit account enter[3]:");
@@ -265,6 +270,8 @@ public class Bank {
 								customerFirstName, // First name
 								customerLastName, // Last name
 								Integer.toString(customerIdTracker), // Customer ID
+								password,
+								email,
 								true, // Has Checking
 								true, // Has Savings
 								customerDOB, // Date of birth
@@ -272,7 +279,6 @@ public class Bank {
 								customerAddressArray, // Address
 								checkingAccount, // Checking
 								savingsAccount, // createSavingsAccount(Integer.parseInt(VALS[10]),
-												// Double.parseDouble(VALS[13]), 0.0), //Savings
 								creditAccount // Credit
 						));
 						break;
@@ -292,6 +298,8 @@ public class Bank {
 						data.put(Integer.toString(customerIdTracker), new Customer(customerFirstName, // First name
 								customerLastName, // Last name
 								Integer.toString(customerIdTracker), // Customer ID
+								password,
+								email,
 								true, // Has Checking
 								true, // Has Savings
 								customerDOB, // Date of birth
@@ -299,7 +307,6 @@ public class Bank {
 								customerAddressArray, // Address
 								checkingAccount1, // Checking
 								savingsAccount1, // createSavingsAccount(Integer.parseInt(VALS[10]),
-													// Double.parseDouble(VALS[13]), 0.0), //Savings
 								creditAccount1 // Credit
 						));
 						break;
@@ -322,6 +329,8 @@ public class Bank {
 						data.put(Integer.toString(customerIdTracker), new Customer(customerFirstName, // First name
 								customerLastName, // Last name
 								Integer.toString(customerIdTracker), // Customer ID
+								password,
+								email,
 								true, // Has Checking
 								true, // Has Savings
 								customerDOB, // Date of birth
@@ -329,7 +338,6 @@ public class Bank {
 								customerAddressArray, // Address
 								checkingAccount3, // Checking
 								savingsAccount3, // createSavingsAccount(Integer.parseInt(VALS[10]),
-												// Double.parseDouble(VALS[13]), 0.0), //Savings
 								creditAccount3 // Credit
 						));
 						break;
@@ -353,6 +361,8 @@ public class Bank {
 				data.put(Integer.toString(customerIdTracker), new Customer(customerFirstName, // First name
 						customerLastName, // Last name
 						Integer.toString(customerIdTracker), // Customer ID
+						password,
+						email,
 						true, // Has Checking
 						true, // Has Savings
 						customerDOB, // Date of birth
@@ -360,7 +370,6 @@ public class Bank {
 						customerAddressArray, // Address
 						checkingAccount4, // Checking
 						savingsAccount4, // createSavingsAccount(Integer.parseInt(VALS[10]),
-										// Double.parseDouble(VALS[13]), 0.0), //Savings
 						creditAccount4 // Credit
 				));
 			}
