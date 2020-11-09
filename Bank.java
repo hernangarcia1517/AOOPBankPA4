@@ -68,7 +68,6 @@ public class Bank {
                         }else if(headers[i].equals("Date of Birth")){
                             seenDateOfBirth = true;
                         }
-						System.out.println(headers[i] +" "+ inputCorrector.get(headers[i]));
 					}
 				}
 				if (count > 0) { // Omitting the first row, which should just be the headers
