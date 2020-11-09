@@ -9,3 +9,4 @@ Mickey Mouse sent $5.50 to Donald Duck
 Mickey Mouse sent $5.50 to Mickey Mouse
 Hernan Garcia deposited $500 in their checking.
 Hernan Garcia deposited $500 in their savings.
+Mickey Mouse withdrew $2000 in their checking.

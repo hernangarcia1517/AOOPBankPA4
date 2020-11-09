@@ -232,31 +232,34 @@ public class Bank {
 	 * @param transactionLog logs user transaction
 	 */
 	public static void runCreateCustomer(HashMap<String, Customer> data, BufferedReader inputReader,
-			Writer transactionLog) {
-		try {
-			System.out.print("Enter First Name: ");
-			String customerFirstName = inputReader.readLine();
-			System.out.println();
-			System.out.print("Enter Last Name: ");
-			String customerLastName = inputReader.readLine();
-			System.out.println();
-			System.out.print("Enter Date of Birth (##-##-####): ");
-			String customerDOB = inputReader.readLine();
-			System.out.println();
-			System.out.print("Enter Adress (Street, City, ZIP Code):");
-			String customerAddress = inputReader.readLine();           //NEED TO VERIFY THE INPUT
-			String[] customerAddressArray = customerAddress.split(",");
-			System.out.println();
-			System.out.print("Enter Phone Number: ");
-			String customerPhoneNumber = inputReader.readLine();
-			System.out.println();
-			System.out.print("Enter Savings Starting Balance: $");
-			String savingsStartingBalance = inputReader.readLine();
-			System.out.print("Would you like to create an additional account?[y/n]: ");
-			String createAdditional = inputReader.readLine();
-			
-			String email = "demo";
-			String password = "123";
+	Writer transactionLog) {
+customerIdTracker++;// increase the number of IDs we have
+try {
+	System.out.print("Enter First Name: ");
+	String customerFirstName = inputReader.readLine();
+	System.out.println();
+	System.out.print("Enter Last Name: ");
+	String customerLastName = inputReader.readLine();
+	System.out.println();
+	System.out.print("Enter Date of Birth (##-##-####): ");
+	String customerDOB = inputReader.readLine();
+	System.out.println();
+	System.out.print("Enter Adress (Street, City, ZIP Code):");
+	String customerAddress = inputReader.readLine(); // NEED TO VERIFY THE INPUT
+	String[] customerAddressArray = customerAddress.split(",");
+	System.out.println();
+	System.out.print("Enter Email Address: ");
+	String email = inputReader.readLine();
+	System.out.println();
+	System.out.print("Enter Phone Number: ");
+	String customerPhoneNumber = inputReader.readLine();
+	System.out.println();
+	String password = generatePassword(customerFirstName, customerLastName); // generate a password for the new
+																				// user
+	System.out.print("Enter Savings Starting Balance: $");
+	String savingsStartingBalance = inputReader.readLine();
+	System.out.print("Would you like to create an additional account?[y/n]: ");
+	String createAdditional = inputReader.readLine();
 			if (createAdditional.equals("y")) {
 				System.out.println("To open a new checking account enter [1]\nTo open a new credit account enter [2]\n"
 						+ "To open a new checking and credit account enter[3]:");
@@ -275,7 +278,6 @@ public class Bank {
 						// Create Checking Account
 						Checking checkingAccount = createCheckingProcedure(checkingStartingBalance);
 						Credit creditAccount = ghostCredit();
-						customerIdTracker++;
 						data.put(Integer.toString(customerIdTracker), new Customer(
 								customerFirstName, // First name
 								customerLastName, // Last name
@@ -304,7 +306,6 @@ public class Bank {
 
 						Checking checkingAccount1 = ghostChecking();
 
-						customerIdTracker++;
 						data.put(Integer.toString(customerIdTracker), new Customer(customerFirstName, // First name
 								customerLastName, // Last name
 								Integer.toString(customerIdTracker), // Customer ID
@@ -335,7 +336,6 @@ public class Bank {
 						// Create Credit Account
 						Credit creditAccount3 = createCreditProcedure(creditStartingBalance1);
 						
-						customerIdTracker++;
 						data.put(Integer.toString(customerIdTracker), new Customer(customerFirstName, // First name
 								customerLastName, // Last name
 								Integer.toString(customerIdTracker), // Customer ID
@@ -367,7 +367,6 @@ public class Bank {
 				// Create Credit Account
 				Credit creditAccount4 = ghostCredit();
 				
-				customerIdTracker++;
 				data.put(Integer.toString(customerIdTracker), new Customer(customerFirstName, // First name
 						customerLastName, // Last name
 						Integer.toString(customerIdTracker), // Customer ID
@@ -995,20 +994,21 @@ public class Bank {
 		// IT
 // create the ArrayList<String> of the new lines for the file
 // convert to objects again,
-		BufferedReader br = new BufferedReader(new FileReader("CS 3331 - Bank Users 3(3).csv"));
+		BufferedReader br = new BufferedReader(new FileReader("CS 3331 - Bank Users 4.csv"));
 		ArrayList<String> lines = new ArrayList<String>();
 
 		data.entrySet().forEach(entry -> {
-			lines.add(entry.getValue().getCustomerID() + "," + entry.getValue().getSavingsAccount().getAccountNumber()
-					+ "," + entry.getValue().getLastName() + "," + entry.getValue().getDateOfBirth() + ","
+			lines.add(entry.getValue().getSavingsAccount().getAccountNumber() + "," + entry.getValue().getLastName()
+					+ "," + entry.getValue().getCustomerID() + entry.getValue().getDateOfBirth() + ","
 					+ entry.getValue().getCheckingAccount().getAccountNumber() + ","
 					+ entry.getValue().getCreditAccount().getAccountNumber() + "," + entry.getValue().getPhoneNumber()
 					+ "," + entry.getValue().getCheckingAccount().getCurrentBalance() + ","
-					+ entry.getValue().getSavingsAccount().getCurrentBalance() + ","
-					+ entry.getValue().getCreditAccount().getCreditLine() + ","
-					+ entry.getValue().getCreditAccount().getCurrentBalance() + "," + (entry.getValue().getAddress()[0]
-							+ entry.getValue().getAddress()[1] + entry.getValue().getAddress()[2])
-					+ "," + entry.getValue().getFirstName());
+					+ entry.getValue().getSavingsAccount().getCurrentBalance() + "," + entry.getValue().getPassword()
+					+ "," + entry.getValue().getCreditAccount().getCurrentBalance() + ","
+					+ (entry.getValue().getAddress()[0] + entry.getValue().getAddress()[1]
+							+ entry.getValue().getAddress()[2])
+					+ "," + entry.getValue().getFirstName() + "," + entry.getValue().getEmail() + ","
+					+ entry.getValue().getCreditAccount().getCreditLine());
 		});
 
 		try {
@@ -1025,7 +1025,7 @@ public class Bank {
 
 // create a BufferedWriter
 			BufferedWriter outputFile = new BufferedWriter(
-					new FileWriter("CS 3331 - Bank Users 3(3) - Copy.csv", false));// fileWriter to fals to
+					new FileWriter("CS 3331 - Bank Users 4 - Copy.csv", false));// fileWriter to fals to
 // overwrite the existing
 // file
 // read and print the first line of the last file
@@ -1052,8 +1052,10 @@ public class Bank {
 			es.printStackTrace();
 		}
 	}
-
+	public static String generatePassword(String firstName, String lastName) {
+		String password = lastName + "*" + firstName + "!987";
+		return password;
+	}
 } // END OF class
-
 //Mickey Mouse 000-00-0001
 //Donald Duck 000-00-0002
