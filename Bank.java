@@ -1,9 +1,3 @@
-
-/**
- * @author Hernan Garcia
- * @version 1.1.0
- * @since October 19, 2020
- */
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,7 +5,37 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.*;
-
+/**
+ * Programming Assignment 4
+ * 
+ * The purpose of this class is to simulate a bank account. The program implements user interaction
+ * to ask for necessary information and what they are using the program for.
+ * 
+ * @author Hernan Garcia and Alyssandra Cordero
+ * @version 1.1.0
+ * @since November 9, 2020
+ * 
+ * CS 3331 - Adv. OOP, Fall 2020 Daniel Mejia
+*A fundamental principle for any educational institution, academic
+*integrity is highly valued and seriously regarded at The University
+*of Texas at El Paso. More specifically, students are expected to
+*maintain absolute integrity and a high standard of individual honor
+*in scholastic work undertaken at the University. At a minimum, you
+*should complete any assignments, exams, and other scholastic
+*endeavors with the utmost honesty, which requires you to:
+*Acknowledge the contributions of other sources to your scholastic
+*efforts; Complete your assignments independently unless expressly
+*authorized to seek or obtain assistance in preparing them; Follow
+*instructions for assignments and exams, and observe the standards of
+*your academic discipline; and Avoid engaging in any form of academic
+*dishonesty on behalf of yourself or another student. Graded work,
+*e.g., homework and tests, is to be completed independently and
+*should be unmistakably your own work (or, in the case of group work,
+*your team's work), although you may discuss your project with other
+*students in a general way. You may not represent as your own work
+*material that is transcribed or copied from another person, book, or
+*any other source, e.g., a web page.
+ */
 public class Bank {
 	static int customerIdTracker = 0;
 	static int checkingAccountIdTracker = 0;
@@ -20,7 +44,7 @@ public class Bank {
 
 	/**
 	 * Main method
-	 * 
+	 * This method holds the functionality of the Bank class.
 	 * @param args arguments during run
 	 */
 	public static void main(String[] args) {
@@ -234,6 +258,7 @@ public class Bank {
 	Writer transactionLog) {
 customerIdTracker++;// increase the number of IDs we have
 try {
+	//Ask the user for its basic information
 	System.out.print("Enter First Name: ");
 	String customerFirstName = inputReader.readLine();
 	System.out.println();
@@ -263,26 +288,25 @@ try {
 	System.out.print("Enter Savings Starting Balance: $");
 	String savingsStartingBalance = inputReader.readLine();
 	System.out.println();
-	String password = generatePassword(customerFirstName, customerLastName); // generate a password for the new
-																			// user
+	String password = generatePassword(customerFirstName, customerLastName); // generate a password for the new user
+	//let the user know the new password and ask the user if they would like to create an additional account.
 	System.out.println("Your account has been created. Please save your new password to log in : "+ password);
 	System.out.println();
 	System.out.print("Besides the savings account, would you like to create an additional account? [y/n]: ");
 	String createAdditional = inputReader.readLine();
 	System.out.println();
-			if (createAdditional.equals("y")) {
+			if (createAdditional.equals("y")) {//User wants to create an additional account
 				System.out.print("To open new checking account [1]. To open new credit account [2]. To pen checking and credit account [3]:");
 				System.out.println();
 				String createAnother = inputReader.readLine();
 				int createAnotherToInt = (Integer.valueOf(createAnother));
 				boolean flagCustomer = true;
 				do {
-					switch (createAnotherToInt) {
-					case 1:
+					switch (createAnotherToInt) {//based on the user input create the appropiate account
+					case 1://Creating an additional checking account
 						System.out.print("Enter Checking Starting Balance: $");
 						String checkingStartingBalance = inputReader.readLine();
 						System.out.println();
-
 						// create the customer
 						// create savings account
 						Savings savingsAccount = createSavingsProcedure(savingsStartingBalance);
@@ -293,8 +317,8 @@ try {
 								customerFirstName, // First name
 								customerLastName, // Last name
 								Integer.toString(customerIdTracker), // Customer ID
-								password,
-								email,
+								password,// Has Password
+								email, //Has Email
 								true, // Has Checking
 								true, // Has Savings
 								customerDOB, // Date of birth
@@ -305,7 +329,7 @@ try {
 								creditAccount // Credit
 						));
 						break;
-					case 2:
+					case 2://Creating an additional credit account
 						System.out.print("Enter Credit Starting Balance: $");
 						String creditStartingBalance = inputReader.readLine();
 						System.out.println();
@@ -314,14 +338,13 @@ try {
 						Savings savingsAccount1 = createSavingsProcedure(savingsStartingBalance);
 						// Create Credit Account
 						Credit creditAccount1 = createCreditProcedure(creditStartingBalance);
-
+						//initialize the checking "ghost" account
 						Checking checkingAccount1 = ghostChecking();
-
 						data.put(Integer.toString(customerIdTracker), new Customer(customerFirstName, // First name
 								customerLastName, // Last name
 								Integer.toString(customerIdTracker), // Customer ID
-								password,
-								email,
+								password, //Has Password
+								email, //Has Email
 								true, // Has Checking
 								true, // Has Savings
 								customerDOB, // Date of birth
@@ -332,7 +355,7 @@ try {
 								creditAccount1 // Credit
 						));
 						break;
-					case 3:
+					case 3://Create an additional checking and credit account
 						System.out.print("Enter Checking Starting Balance: $");
 						String checkingStartingBalance1 = inputReader.readLine();
 						System.out.println();
@@ -363,26 +386,26 @@ try {
 								creditAccount3 // Credit
 						));
 						break;
-					default:
+					default:// if the user does not enter a valid selection, ask for a valid selection until you get it
 					flagCustomer = false;
 						System.out.print("please enter 1, 2 or 3 to continue: ");
 						System.out.println();
 					}
-				} while (!flagCustomer);
-			} else {
+				} while (!flagCustomer);//while the user inputs an invalid amount, keep asking until you get a valid one
+			}//finished creating the additional accounts
+			 else {//In case the user does not want to create an additional account, create a savings account only
 				// create the customer
 				// create savings account
 				Savings savingsAccount4 = createSavingsProcedure(savingsStartingBalance);
 				// Create Checking Account
 				Checking checkingAccount4 = ghostChecking();
-				// Create Credit Account
+				// Create a ghost credit account
 				Credit creditAccount4 = ghostCredit();
-				
 				data.put(Integer.toString(customerIdTracker), new Customer(customerFirstName, // First name
 						customerLastName, // Last name
 						Integer.toString(customerIdTracker), // Customer ID
-						password,
-						email,
+						password, // Has password
+						email, // has email
 						true, // Has Checking
 						true, // Has Savings
 						customerDOB, // Date of birth
@@ -392,12 +415,17 @@ try {
 						savingsAccount4, // createSavingsAccount(Integer.parseInt(VALS[10]),
 						creditAccount4 // Credit
 				));
-			}
+			} //finished creating just the savings account
 		} catch (IOException e) {
 			System.out.println("Error:" + e);
 		}
 	}// END OF runCreateCustomer()
-
+	/**
+	 * This method acts like a helper method to the create a new user functionality by allowing the program to give a checking account
+	 * with the starting balance provided to the user.
+	 * @param startingAmount value that holds the starting balance given by the user.
+	 * @return returns the checking account created.
+	 */
 	public static Checking createCheckingProcedure(String startingAmount) {
 		checkingAccountIdTracker++;
 		Checking checkingAccount = createCheckingAccount(checkingAccountIdTracker, Double.parseDouble(startingAmount),
@@ -406,7 +434,12 @@ try {
 		System.out.println();
 		return checkingAccount;
 	} // END OF createCheckingProcedure()
-
+	/**
+	 * This method acts like a helper method to the create a new user functionality by allowing the program to give a credit account
+	 * with the starting balance provided to the user.
+	 * @param startingAmount value that holds the starting balance given by the user.
+	 * @return returns the credit account created.
+	 */
 	public static Credit createCreditProcedure(String startingAmount) {
 		creditAccountIdTracker++;
 		Credit creditAccount = createCreditAccount(creditAccountIdTracker, Double.parseDouble(startingAmount), 1000,
@@ -415,7 +448,12 @@ try {
 		System.out.println();
 		return creditAccount;
 	} // END OF createCreditProcedure()
-
+	/**
+	 * This method acts like a helper method to the create a new user functionality by allowing the program to give a savings account
+	 * with the starting balance provided to the user.
+	 * @param startingAmount value that holds the starting balance given by the user.
+	 * @return returns the savings account created.
+	 */
 	public static Savings createSavingsProcedure(String startingAmount) {
 		System.out.println();
 		savingsAccountIdTracker++;
@@ -424,12 +462,18 @@ try {
 		System.out.println();
 		return savingsAccount;
 	}// END OF createSavingsProcedure()
-
+	/**
+	 * This method acts like a helper method to the create a new user functionality by allowing the program to give a checking account
+	 * with no values for a customer that does not need a checking account.
+	 */
 	public static Checking ghostChecking() {
 		Checking ghost = createCheckingAccount(0, 0.0, 0.0);
 		return ghost;
 	}
-
+	/**
+	 * This method acts like a helper method to the create a new user functionality by allowing the program to give a checking account
+	 * with no values for a customer that does not need a credit account.
+	 */
 	public static Credit ghostCredit() {
 		Credit ghost = createCreditAccount(0, 0.0, 0.0, 0.0);
 		return ghost;
@@ -552,7 +596,7 @@ try {
 						break;
 					case "4": // Transfer Money
 	
-						boolean flag1 = true;
+						boolean checkAmountToTransfer = true; 
 	
 						System.out.println("Which account do you want to transfer from?:");
 						int transferFromAccount = getDesiredAccount(false, inputReader);
@@ -611,9 +655,9 @@ try {
 								System.out.print("Invalid input, please enter a valid amount to continue: ");
 								System.out.println();
 								moneyAction = inputReader.readLine();
-								flag1 = false;
+								checkAmountToTransfer = false;
 							}
-						} while (!flag1);
+						} while (!checkAmountToTransfer);
 						break;
 					case "5": // Send Money
 						boolean flag5 = true;
@@ -1019,10 +1063,11 @@ System.out.println();
 			return -1;
 		}
 	} // END OF getDesiredAccount()
-
-	public static void createCopy(HashMap<String, Customer> data) throws IOException {// MAYBE
-		// WE'LL USE
-		// IT
+/**
+	 * This method provides the functionality of creating a file with the updated information of the bank.
+	 * @param data the hashmap that holds the information of all the users of the bank
+	 */
+	public static void createCopy(HashMap<String, Customer> data) throws IOException {
 // create the ArrayList<String> of the new lines for the file
 // convert to objects again,
 		BufferedReader br = new BufferedReader(new FileReader("CS 3331 - Bank Users 4.csv"));
@@ -1082,11 +1127,25 @@ System.out.println();
 		} catch (IOException es) {
 			es.printStackTrace();
 		}
-	}
+	}//END OF THE CREATE COPY METHOD
+	/**
+	 * This method is a helper method used to generate a password with
+	 * the required format for a new user when the program is creating a new customer.
+	 * @param firstName the first name of the customer.
+	 * @param lastName the last name of the customer.
+	 * @return the new password for the user.
+	 */
 	public static String generatePassword(String firstName, String lastName) {
 		String password = lastName + "*" + firstName + "!987";
 		return password;
 	}
+		/**
+	 * This method is a helper method used to verify that the password provided by the user matches the required password
+	 * to access to the functionalities of the customers.
+	 * @param password the password required by the user.
+	 * @param userInput the password provided by the user.
+	 * @return false if the passwords does not match, true if the passwords match
+	 */
 	public static boolean passwordMatch(String password, String userInput){
 		if (userInput.equals(password)){
 		return true;

@@ -83,9 +83,17 @@ public class Customer extends Person{
     public Credit getCreditAccount(){
         return creditAccount;
     }
+    /**
+     * this method is to get the reference of the password
+     * @return password
+     */
 	public String getPassword() {
 		return password;
-	}
+    }
+    /**
+     * this method is to get the reference of the email account
+     * @return email account
+     */
 	public String getEmail() {
 		return email;
 	}
