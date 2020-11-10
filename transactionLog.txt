@@ -11,3 +11,5 @@ Hernan Garcia deposited $500 in their checking.
 Hernan Garcia deposited $500 in their savings.
 Mickey Mouse withdrew $2000 in their checking.
 Mickey Mouse deposited $1000 in their checking.
+Mickey Mouse deposited $6 in their credit.
+Mickey Mouse withdrew $50 in their savings.

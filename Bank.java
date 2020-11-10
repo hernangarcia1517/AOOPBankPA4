@@ -289,11 +289,11 @@ public class Bank {
 			System.out.print("Enter Phone Number: ");
 			String customerPhoneNumber = inputReader.readLine();
 			System.out.println();
-			System.out.print("Enter Savings Starting Balance: $");
+			System.out.print("Enter Savings Starting Balance: $ ");
 			String savingsStartingBalance = inputReader.readLine();
 			System.out.println();
-			String password = generatePassword(customerFirstName, customerLastName); // generate a password for the new
-																						// user
+			System.out.print("Enter new password:");
+			String password = inputReader.readLine();
 			// let the user know the new password and ask the user if they would like to
 			// create an additional account.
 			System.out.println("Your account has been created. Please save your new password to log in : " + password);
