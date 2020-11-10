@@ -1,7 +1,7 @@
 /**
- * @author Hernan Garcia
- * @version 1.0.0
- * @since October 19, 2020
+ * @author Hernan Garcia and Alyssandra Cordero
+ * @version 1.1.0
+ * @since November 9, 2020
  */
 import java.io.FileWriter;
 import java.io.IOException;
@@ -108,14 +108,23 @@ public class BankStatement implements Printable{
         }
     }
 
+    /**
+     * This method is to print prompts for the bank statement
+     */
     @Override
     public void print(){
         System.out.println("Writing Bank Statement, please wait...");
     }
+    /**
+     * This method is to print prompts for a checking account in a bank statement
+     */
     @Override 
     public void printChecking(){
         System.out.println("Writing customer's checking account statement...");
     }
+    /**
+     * This method is to print prompts for a credit account in a bank statement
+     */
     @Override
     public void printCredit(){
         System.out.println("Writing customer's credit account statement...");

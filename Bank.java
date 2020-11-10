@@ -14,7 +14,7 @@ import java.util.*;
  * are using the program for.
  * 
  * @author Hernan Garcia and Alyssandra Cordero
- * @version 1.1.0
+ * @version 1.2.0
  * @since November 9, 2020
  * 
  *        CS 3331 - Adv. OOP, Fall 2020 Daniel Mejia A fundamental principle for
@@ -486,21 +486,25 @@ public class Bank {
 	 * This method acts like a helper method to the create a new user functionality
 	 * by allowing the program to give a checking account with no values for a
 	 * customer that does not need a checking account.
+	 * 
+	 * @return a blank checking account
 	 */
 	public static Checking ghostChecking() {
 		Checking ghost = createCheckingAccount(0, 0.0, 0.0);
 		return ghost;
-	}
+	} // END of ghostChecking()
 
 	/**
 	 * This method acts like a helper method to the create a new user functionality
 	 * by allowing the program to give a checking account with no values for a
 	 * customer that does not need a credit account.
+	 * 
+	 * @return a blank credit account
 	 */
 	public static Credit ghostCredit() {
 		Credit ghost = createCreditAccount(0, 0.0, 0.0, 0.0);
 		return ghost;
-	}
+	} // END of ghostCredit()
 
 	/**
 	 * This method is going to handle the logic of runing the application as a
@@ -1174,7 +1178,7 @@ public class Bank {
 	public static String generatePassword(String firstName, String lastName) {
 		String password = lastName + "*" + firstName + "!987";
 		return password;
-	}
+	} // END of generatePassword
 
 	/**
 	 * This method is a helper method used to verify that the password provided by
@@ -1191,7 +1195,7 @@ public class Bank {
 		} else {
 			return false;
 		}
-	}
+	} // END of passwordMatch
 } // END OF class
 	// Mickey Mouse 000-00-0001
 	// Donald Duck 000-00-0002

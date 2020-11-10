@@ -1,7 +1,7 @@
 /**
- * @author Hernan Garcia
- * @version 1.1.0
- * @since October 19, 2020
+ * @author Hernan Garcia and Alyssandra Cordero
+ * @version 1.2.0
+ * @since November 9, 2020
  */
 
 public class Customer extends Person implements Printable{
@@ -85,12 +85,18 @@ public class Customer extends Person implements Printable{
         return creditAccount;
     }
 
+    /**
+     * This method is to print savings acccount balance
+     */
     @Override
     public void print(){
         System.out.println(super.getName() + "'s savings account:");
         System.out.println("Savings account balance: " + savingAccount.getCurrentBalance());
     }
 
+    /**
+     * This method is to print checking acccount balance
+     */
     @Override
     public void printChecking(){
         if(checkingAccount != null){
@@ -100,7 +106,10 @@ public class Customer extends Person implements Printable{
             System.out.println(super.getName() + " is not associated with a checking account.");
         }
     }
-    
+
+    /**
+     * This method is to print credit acccount balance
+     */
     @Override
     public void printCredit(){
         if(creditAccount != null){
