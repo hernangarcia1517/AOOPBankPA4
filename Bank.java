@@ -178,7 +178,7 @@ public class Bank {
 				String desiredFunctionality = inputReader.readLine();
 				switch (Integer.parseInt(desiredFunctionality)) {
 					case 1: // Create Customer
-						runCreateCustomer(data, inputReader, transactionLog);
+						runCreateCustomer(data, customerIds, inputReader, transactionLog);
 						break;
 					case 2: // Customer
 						runCustomer(data, inputReader, transactionLog);
@@ -258,7 +258,7 @@ public class Bank {
 	 * @param inputReader    buffered reader that handles user input
 	 * @param transactionLog logs user transaction
 	 */
-	public static void runCreateCustomer(HashMap<String, Customer> data, BufferedReader inputReader,
+	public static void runCreateCustomer(HashMap<String, Customer> data, HashMap<String, String> customerIds, BufferedReader inputReader,
 			Writer transactionLog) {
 		customerIdTracker++;// increase the number of IDs we have
 		try {
@@ -334,6 +334,7 @@ public class Bank {
 									savingsAccount, // createSavingsAccount(Integer.parseInt(VALS[10]),
 									creditAccount // Credit
 							));
+							customerIds.put(customerFirstName + " " + customerLastName, Integer.toString(customerIdTracker));
 							break;
 						case 2:// Creating an additional credit account
 							System.out.print("Enter Credit Starting Balance: $");
@@ -360,6 +361,7 @@ public class Bank {
 									savingsAccount1, // createSavingsAccount(Integer.parseInt(VALS[10]),
 									creditAccount1 // Credit
 							));
+							customerIds.put(customerFirstName + " " + customerLastName, Integer.toString(customerIdTracker));
 							break;
 						case 3:// Create an additional checking and credit account
 							System.out.print("Enter Checking Starting Balance: $");
@@ -389,6 +391,7 @@ public class Bank {
 									savingsAccount3, // createSavingsAccount(Integer.parseInt(VALS[10]),
 									creditAccount3 // Credit
 							));
+							customerIds.put(customerFirstName + " " + customerLastName, Integer.toString(customerIdTracker));
 							break;
 						default:// if the user does not enter a valid selection, ask for a valid selection until
 								// you get it
@@ -422,6 +425,7 @@ public class Bank {
 						savingsAccount4, // createSavingsAccount(Integer.parseInt(VALS[10]),
 						creditAccount4 // Credit
 				));
+				customerIds.put(customerFirstName + " " + customerLastName, Integer.toString(customerIdTracker));
 			} // finished creating just the savings account
 		} catch (IOException e) {
 			System.out.println("Error:" + e);
@@ -794,8 +798,8 @@ public class Bank {
 			boolean transactionCompleted = false;
 			while (!transactionCompleted) {
 				System.out.print("1. Inquire customer by Name 2. Create Bank Statement 3. Print all accounts 4. Exit");
-				String desiredAction = inputReader.readLine();
 				System.out.println();
+				String desiredAction = inputReader.readLine();
 				switch (desiredAction) {
 					case "1":
 						System.out.print("Enter first name of desired customer: ");
