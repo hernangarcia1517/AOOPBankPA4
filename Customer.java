@@ -3,9 +3,12 @@
  * @version 1.1.0
  * @since October 19, 2020
  */
+
 public class Customer extends Person implements Printable{
-    private String dateOfBirth;
     private String phoneNumber;
+    private String password;
+    private String email;
+    private String[] dateOfBirth;
     private String[] address;
     private Checking checkingAccount;
     private Savings savingAccount;
@@ -28,21 +31,16 @@ public class Customer extends Person implements Printable{
      * @param savingsAccount Customer reference to savings account
      * @param creditAccount customer reference to credit account
      */
-    Customer(String firstName, String lastName, String customerID, boolean hasChecking, boolean hasSavings, String dateOfBirth, String phoneNumber, String[] address, Checking checkingAccount, Savings savingsAccount, Credit creditAccount){
+    Customer(String firstName, String lastName, String customerID, String password, String email, boolean hasChecking, boolean hasSavings, String[] dateOfBirth, String phoneNumber, String[] address, Checking checkingAccount, Savings savingsAccount, Credit creditAccount){
         super(firstName, lastName, customerID, hasChecking, hasSavings);
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.email = email;
         this.address = address;
         this.checkingAccount = checkingAccount;
         this.savingAccount = savingsAccount;
         this.creditAccount = creditAccount;
-    }
-    /**
-     * This methos is to get the date of birth
-     * @return string array consisting of month day, year
-     */
-    public String getDateOfBirth(){
-        return dateOfBirth;
     }
     /**
      * Thismethod is to get the customer's phone number
@@ -50,6 +48,13 @@ public class Customer extends Person implements Printable{
      */
     public String getPhoneNumber(){
         return phoneNumber;
+    }
+    /**
+     * This methos is to get the date of birth
+     * @return string array consisting of month day, year
+     */
+    public String[] getDateOfBirth(){
+        return dateOfBirth;
     }
     /**
      * This method is to get the customer's address
@@ -106,4 +111,18 @@ public class Customer extends Person implements Printable{
             System.out.println(super.getName() + " is not associated with a credit account.");
         }
     }
+    /**
+     * this method is to get the reference of the password
+     * @return password
+     */
+	public String getPassword() {
+		return password;
+    }
+    /**
+     * this method is to get the reference of the email account
+     * @return email account
+     */
+	public String getEmail() {
+		return email;
+	}
 }

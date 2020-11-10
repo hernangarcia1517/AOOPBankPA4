@@ -1,0 +1,13 @@
+BANK STATEMENT FOR:
+Mickey Mouse
+Address: "1313 Disneyland Dr, Anaheim, CA 92802"
+Phone Number: (714) 781-4636
+Current Account(s) Balance: 
+Checking: 2854.17
+Savings: 3940.92
+Credit: -1132.03
+Transaction Records:
+Mickey Mouse Made a Balance Inquiry
+Mickey Mouse Made a Balance Inquiry
+Mickey Mouse Made a Balance Inquiry
+Date of records: 2020/11/09 16:19:08
