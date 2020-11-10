@@ -279,7 +279,7 @@ public class Bank {
 			String customerBirthYear = inputReader.readLine();
 			String[] customerDOB = { customerBirthMonth + " " + customerBirthDay, customerBirthYear };
 			System.out.println();
-			System.out.print("Enter Adress (Street, City, ZIP Code):");
+			System.out.print("Enter Address (Street, City, ZIP Code):");
 			String customerAddress = inputReader.readLine(); // NEED TO VERIFY THE INPUT
 			String[] customerAddressArray = customerAddress.split(",");
 			System.out.println();
@@ -303,7 +303,7 @@ public class Bank {
 			System.out.println();
 			if (createAdditional.equals("y")) {// User wants to create an additional account
 				System.out.print(
-						"To open new checking account [1]. To open new credit account [2]. To pen checking and credit account [3]:");
+						"1. To open new checking account 2. To open new credit account 3. To pen checking and credit account");
 				System.out.println();
 				String createAnother = inputReader.readLine();
 				int createAnotherToInt = (Integer.valueOf(createAnother));
