@@ -874,6 +874,10 @@ public class Bank {
 					String transactionAction = "";
 					String amount = "";
 					String[] TRANSACTION = currentTransaction.split(",");
+					for(int i = 0; i < TRANSACTION.length; i++){
+						System.out.print(TRANSACTION[i] + " ");
+					}
+					System.out.println();
 					// 0 first naem 1 last name 2 from where 3 action 4 reciever first 5 reciever
 					// last 6 to where 7 amount
 					if (TRANSACTION[3].equals("inquires")) {
