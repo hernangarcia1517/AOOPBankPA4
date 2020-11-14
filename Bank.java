@@ -38,10 +38,10 @@ import java.util.*;
  *        person, book, or any other source, e.g., a web page.
  */
 public class Bank {
-	static int customerIdTracker = 0;
-	static int checkingAccountIdTracker = 0;
-	static int savingsAccountIdTracker = 0;
-	static int creditAccountIdTracker = 0;
+	private static int customerIdTracker = 0;
+	private static int checkingAccountIdTracker = 0;
+	private static int savingsAccountIdTracker = 0;
+	private static int creditAccountIdTracker = 0;
 
 	/**
 	 * Main method This method holds the functionality of the Bank class.
@@ -190,7 +190,7 @@ public class Bank {
 						runTransactionReader(data, customerIds, transactionLog);
 					case 5:
 						isDone = !isDone;
-						createCopy(data);
+						createCSVCopy(data);
 						System.out.println("Ending Application");
 						break;
 					default:
@@ -1113,7 +1113,7 @@ public class Bank {
 	 * @param data the hashmap that holds the information of all the users of the
 	 *             bank
 	 */
-	public static void createCopy(HashMap<String, Customer> data) throws IOException {
+	public static void createCSVCopy(HashMap<String, Customer> data) throws IOException {
 		// create the ArrayList<String> of the new lines for the file
 		// convert to objects again,
 		BufferedReader br = new BufferedReader(new FileReader("CS 3331 - Bank Users 4.csv"));

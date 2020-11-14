@@ -28,8 +28,8 @@ public class Credit extends Account{
     public double getInterestRate(){
         return interestRate;
     }
-    public double getCreditLine() {
-    	return creditLine;
+    public double getOutstandingBalance() {
+    	return super.getCurrentBalance();
     }
     /**
      * This method is to return the credit line
