@@ -703,7 +703,7 @@ public class Bank {
 								System.out.print("Enter customer ID of receiver: ");
 								String rC = inputReader.readLine();
 								do {
-									if (Double.parseDouble(rC) < data.size() + 1 && Double.parseDouble(rC) >= 0) {
+									if (Double.parseDouble(rC) < data.size() + 1 && Double.parseDouble(rC) >= 0) { //FIXME: Try to do another way
 										Customer receivingCustomer = data.get(rC);
 										System.out.print("Which account would you like to send money to?: ");
 										int desiredReceiverAccount = getDesiredAccount(false, inputReader);
