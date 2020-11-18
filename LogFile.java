@@ -34,47 +34,47 @@ public class LogFile {
             writer.write(customer.getName());
             writer.write("\n");
 
-    writer.write("Transaction Records:");
-    writer.write("\n");
-    if(hasChecking && hasCredit){
-        if(savings.getTransactions().size() == 0 && checking.getTransactions().size() == 0 && credit.getTransactions().size() == 0){
-            writer.write("No transactions this session.");
+            writer.write("Transaction Records:");
             writer.write("\n");
-        }
-    }
-    if(hasChecking){
-        ArrayList<String> checkingTransactions = customer.getCheckingAccount().getTransactions();
-        for(int i = 0; i < checkingTransactions.size(); i++){
-            writer.write(customer.getName() + " " + checkingTransactions.get(i));
-            writer.write("\n");
-        }
-    }
-    ArrayList<String> savingsTransactions = customer.getSavingsAccount().getTransactions();
-    for(int i = 0; i < savingsTransactions.size(); i++){
-        writer.write(customer.getName() + " " +savingsTransactions.get(i));
-        writer.write("\n");
-    }
+            if(hasChecking && hasCredit){
+                if(savings.getTransactions().size() == 0 && checking.getTransactions().size() == 0 && credit.getTransactions().size() == 0){
+                    writer.write("No transactions this session.");
+                    writer.write("\n");
+                }
+            }
+            if(hasChecking){
+                ArrayList<String> checkingTransactions = customer.getCheckingAccount().getTransactions();
+                for(int i = 0; i < checkingTransactions.size(); i++){
+                    writer.write(customer.getName() + " " + checkingTransactions.get(i));
+                    writer.write("\n");
+                }
+            }
+            ArrayList<String> savingsTransactions = customer.getSavingsAccount().getTransactions();
+            for(int i = 0; i < savingsTransactions.size(); i++){
+                writer.write(customer.getName() + " " +savingsTransactions.get(i));
+                writer.write("\n");
+            }
 
-    if(hasCredit){
-        ArrayList<String> creditTransactions = customer.getCreditAccount().getTransactions();
-        for(int i = 0; i < creditTransactions.size(); i++){
-            writer.write(customer.getName() + " " + creditTransactions.get(i));
-            writer.write("\n");
-        }
-    }
-}catch(IOException e){
-    System.out.println("Error" + e);
-    System.out.println("Log File Not Created.");
-}finally{
-    if(writer != null)
-    {
-        try{
-            writer.close();
-            System.out.println("Log File Created Successfully.");
+            if(hasCredit){
+                ArrayList<String> creditTransactions = customer.getCreditAccount().getTransactions();
+                for(int i = 0; i < creditTransactions.size(); i++){
+                    writer.write(customer.getName() + " " + creditTransactions.get(i));
+                    writer.write("\n");
+                }
+            }
         }catch(IOException e){
             System.out.println("Error" + e);
+            System.out.println("Log File Not Created.");
+        }finally{
+            if(writer != null)
+            {
+                try{
+                    writer.close();
+                    System.out.println("Log File Created Successfully.");
+                }catch(IOException e){
+                    System.out.println("Error" + e);
+                }
+            }
         }
     }
-}
-}
 }
