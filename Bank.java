@@ -818,7 +818,7 @@ public class Bank {
 							System.out.println();
 						}
 					} while (!verifyPassword);// keep asking for the password if user enters the wrong password.
-				}
+				}//END Of while for valid customer
 			}
 		} catch (IOException e) {
 			System.out.println("Error: " + e);
@@ -841,7 +841,10 @@ public class Bank {
 				System.out.println();
 				String desiredAction = inputReader.readLine();
 				switch (desiredAction) {
+
 					case "1":
+					boolean isValidIDC = false;
+					while(!isValidIDC){
 						System.out.print("Enter first name of desired customer: ");
 						String customerFirstName = inputReader.readLine();
 						System.out.println();
@@ -849,8 +852,15 @@ public class Bank {
 						String customerLastName = inputReader.readLine();
 						String desiredCustomerId = customerIds.get(customerFirstName + " " + customerLastName);
 						Customer desiredCustomer = data.get(desiredCustomerId);
+						if(desiredCustomer == null){
+							System.out.println("ERROR: Customer does not exist.");
+							System.out.println();
+							System.out.println();
+						}else{
+							isValidIDC = !isValidIDC;
 						System.out.println();
-						System.out.print("Customer: " + desiredCustomer.getName());
+						System.out.println("Customer: " + desiredCustomer.getName());
+						System.out.println();
 						System.out.print("Checking ");
 						desiredCustomer.getCheckingAccount().inquireBalance();
 						System.out.print("Savings ");
@@ -858,9 +868,13 @@ public class Bank {
 						System.out.print("Credit ");
 						desiredCustomer.getCreditAccount().inquireBalance();
 						System.out.println();
+					}
+				}
 						break;
 					case "2":
-						System.out.print("Enter first name of customer: ");
+					boolean isValidID = false;
+					while(!isValidID){
+					System.out.print("Enter first name of customer: ");
 						String statementCustomerFirstName = inputReader.readLine();
 						System.out.println();
 						System.out.print("Enter last name of customer: ");
@@ -868,11 +882,20 @@ public class Bank {
 						System.out.println();
 						String statementCustomerId = customerIds
 								.get(statementCustomerFirstName + " " + statementCustomerLastName);
+
 						Customer statementCustomer = data.get(statementCustomerId);
+						if(statementCustomer == null){
+							System.out.println("ERROR: Customer does not exist.");
+							System.out.println();
+							System.out.println();
+						}else{
+							isValidID = !isValidID;
 						BankStatement customerBankStatement = new BankStatement(statementCustomer);
 						customerBankStatement.createBankStatement(statementCustomerFirstName + statementCustomerLastName
 								+ "statement" + (new SimpleDateFormat("yyyy_MM_dd")).format(new Date()));
-						break;
+						}
+							}
+								break;
 					case "3":
 						for (String key : data.keySet()) {
 							Customer currentCustomer = data.get(key);
