@@ -570,7 +570,7 @@ public class Bank {
 							while (!transactionCompleted) { // Keep looping until all transactions are completed
 								System.out.println("Enter number of desired action:");
 								System.out.println(
-										"1. Inquire Balance 2. Deposit 3. Withdrawal 4. Transer Money 5. Send Money 6. Exit");
+										"1. Inquire Balance 2. Deposit 3. Withdrawal 4. Transer Money 5. Send Money 6. Generate Log 7. Exit");
 								String desiredAction = inputReader.readLine();
 								String moneyAction = "";
 								switch (desiredAction) {
@@ -797,7 +797,13 @@ public class Bank {
 											}
 										} while (!flag5);
 										break;
-									case "6":
+
+										case "6": // Generate Log
+										LogFile customerLogFile = new LogFile(currentCustomer);
+										customerLogFile.createLogFile(currentCustomer.getFirstName() + currentCustomer.getLastName());
+										break;
+
+									case "7":
 										System.out.println("Thank you, have a nice day!");
 										return; // return, because we are ending all operations
 									default: // Unrecognized character
