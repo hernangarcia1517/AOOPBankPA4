@@ -263,32 +263,57 @@ public class Bank {
 		customerIdTracker++;// increase the number of IDs we have
 		try {
 			// Ask the user for its basic information
-			System.out.print("Enter First Name: ");
-			String customerFirstName = inputReader.readLine();
-			System.out.println();
-			System.out.print("Enter Last Name: ");
-			String customerLastName = inputReader.readLine();
-			System.out.println();
-			System.out.print("Enter Month of Birth: ");
-			String customerBirthMonth = inputReader.readLine();
-			System.out.println();
-			System.out.print("Enter Day of Birth: ");
-			String customerBirthDay = inputReader.readLine();
-			System.out.println();
-			System.out.print("Enter Year of Birth: ");
-			String customerBirthYear = inputReader.readLine();
-			String[] customerDOB = { customerBirthMonth + " " + customerBirthDay, customerBirthYear };
-			System.out.println();
-			System.out.print("Enter Address (Street, City, ZIP Code):");
-			String customerAddress = inputReader.readLine(); // NEED TO VERIFY THE INPUT
-			String[] customerAddressArray = customerAddress.split(",");
-			System.out.println();
-			System.out.print("Enter Email Address: ");
-			String email = inputReader.readLine();
-			System.out.println();
-			System.out.print("Enter Phone Number: ");
-			String customerPhoneNumber = inputReader.readLine();
-			System.out.println();
+			String customerFirstName = "";
+			String customerLastName = "";
+			String customerBirthMonth = "";
+			String customerBirthDay = "";
+			String customerBirthYear = "";
+			String[] customerDOB = new String[2];
+			String customerAddress = "";
+			String[] customerAddressArray = new String[2];
+			String email = "";
+			String customerPhoneNumber = "";
+			boolean isInputEmpty = false;
+			while(!isInputEmpty){
+				System.out.print("Enter First Name: ");
+				customerFirstName = inputReader.readLine();
+				System.out.println();
+				System.out.print("Enter Last Name: ");
+				customerLastName = inputReader.readLine();
+				System.out.println();
+				System.out.print("Enter Month of Birth: ");
+				customerBirthMonth = inputReader.readLine();
+				System.out.println();
+				System.out.print("Enter Day of Birth: ");
+				customerBirthDay = inputReader.readLine();
+				System.out.println();
+				System.out.print("Enter Year of Birth: ");
+				customerBirthYear = inputReader.readLine();
+				customerDOB[0] = customerBirthMonth + " " + customerBirthDay; 
+				customerDOB[1] = customerBirthYear;
+				System.out.println();
+				System.out.print("Enter Address (Street, City, ZIP Code): ");
+				customerAddress = inputReader.readLine(); // NEED TO VERIFY THE INPUT
+				customerAddressArray = customerAddress.split(",");
+				System.out.println();
+				System.out.print("Enter Email Address: ");
+				email = inputReader.readLine();
+				System.out.println();
+				System.out.print("Enter Phone Number: ");
+				customerPhoneNumber = inputReader.readLine();
+				System.out.println();
+				if(
+					customerFirstName.equals("") || customerLastName.equals("") ||
+					customerBirthMonth.equals("") || customerBirthDay.equals("") ||
+					customerBirthYear.equals("") || customerAddress.equals("") ||
+					email.equals("") || customerPhoneNumber.equals("")){
+						System.out.println("ERROR: One or more fields left empty, try again");
+						System.out.println();
+						System.out.println();
+				}else{
+					isInputEmpty = !isInputEmpty;
+				}
+			}
 			System.out.print("Enter Savings Starting Balance: $ ");
 			String savingsStartingBalance = inputReader.readLine();
 			System.out.println();
