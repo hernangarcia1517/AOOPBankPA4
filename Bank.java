@@ -1131,7 +1131,7 @@ public class Bank {
 					+ (entry.getValue().getAddress()[0] + entry.getValue().getAddress()[1]
 							+ entry.getValue().getAddress()[2])
 					+ "," + entry.getValue().getFirstName() + "," + entry.getValue().getEmail() + ","
-					+ entry.getValue().getCreditAccount().getCreditLine());
+					+ entry.getValue().getCreditAccount().getCreditLimit());
 		});
 
 		try {
