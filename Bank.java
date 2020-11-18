@@ -545,266 +545,275 @@ public class Bank {
 	 */
 	public static void runCustomer(HashMap<String, Customer> data, BufferedReader inputReader, Writer transactionLog) {
 		try {
-			System.out.print("Enter customerID number: ");
-			String accountNumber = inputReader.readLine();
-			Customer currentCustomer = data.get(accountNumber); // Getting checking object (accountNumber is the key)
-			boolean verifyPassword = true; // boolean that checks if the password is correct, if false, it will ask the
-											// user for
-											// the password again.
-			System.out.println();
-			System.out.print("Welcome " + currentCustomer.getName() + ". Please enter your password to continue: ");
-			String userPassword = inputReader.readLine();
-			System.out.println();
-			do {
-				if (passwordMatch(currentCustomer.getPassword(), userPassword) == true) {
-					System.out.println("Password verified, thank you.");
+			String accountNumber = "";
+			boolean isValidCustomer = false;
+			while(!isValidCustomer){
+				System.out.print("Enter customerID number: ");
+				accountNumber = inputReader.readLine();
+				Customer currentCustomer = data.get(accountNumber); // Getting checking object (accountNumber is the key)
+				boolean verifyPassword = true; // boolean that checks if the password is correct, if false, it will ask the
+												// user for
+												// the password again.
+				System.out.println();
+				if(currentCustomer == null){
+					System.out.println("ERROR: Customer does not exist, try again");
+				}else{
+					isValidCustomer = !isValidCustomer;
+					System.out.print("Welcome " + currentCustomer.getName() + ". Please enter your password to continue: ");
+					String userPassword = inputReader.readLine();
 					System.out.println();
-					boolean transactionCompleted = false;
-					while (!transactionCompleted) { // Keep looping until all transactions are completed
-						System.out.println("Enter number of desired action:");
-						System.out.println(
-								"1. Inquire Balance 2. Deposit 3. Withdrawal 4. Transer Money 5. Send Money 6. Exit");
-						String desiredAction = inputReader.readLine();
-						String moneyAction = "";
-						switch (desiredAction) {
-							case "1": // Inquire Balance
-								int desiredAccount = getDesiredAccount(true, inputReader);
-								if (desiredAccount == 1)
-									currentCustomer.getCheckingAccount().inquireBalance(); // Check checking balance
-								if (desiredAccount == 2)
-									currentCustomer.getSavingsAccount().inquireBalance(); // Check savings balance
-								if (desiredAccount == 3)
-									currentCustomer.getCreditAccount().inquireBalance(); // Check credit balance
-								if (desiredAccount != 1 && desiredAccount != 2 && desiredAccount != 3)
-									System.out.println("Error: No Balance inquired");
-								break;
-							case "2": // Deposit
-								boolean flag2 = true;
-								System.out.println("To which account would you like to perform this transaction?:");
-								desiredAccount = getDesiredAccount(true, inputReader);
-								System.out.print("Input amount you'd like to deposit: $");
-								moneyAction = inputReader.readLine();
-								do {
-									if (desiredAccount == 1) { // Checking
-										currentCustomer.getCheckingAccount()
-												.receiveMoney(Double.parseDouble(moneyAction), "Deposit");
-										transactionLog.write(currentCustomer.getName() + " deposited $" + moneyAction
-												+ " in their checking.");
-										transactionLog.write("\r\n");
-										return;
-									}
-									if (desiredAccount == 2) { // Savings
-										currentCustomer.getSavingsAccount()
-												.receiveMoney(Double.parseDouble(moneyAction), "Deposit");
-										transactionLog.write(currentCustomer.getName() + " deposited $" + moneyAction
-												+ " in their savings.");
-										transactionLog.write("\r\n");
-										return;
-									}
-									if (desiredAccount == 3 && currentCustomer.getCreditAccount()
-											.canReceive(Double.parseDouble(moneyAction))) { // Credit
-										currentCustomer.getCreditAccount().receiveMoney(Double.parseDouble(moneyAction),
-												"Deposit");
-										transactionLog.write(currentCustomer.getName() + " deposited $" + moneyAction
-												+ " in their credit.");
-										transactionLog.write("\r\n");
-										return;
-									} else {
-										System.out.print(
-												"ERROR: Cannot deposit more than amount due. Please enter a valid amount:");
+					do {
+						if (passwordMatch(currentCustomer.getPassword(), userPassword) == true) {
+							System.out.println("Password verified, thank you.");
+							System.out.println();
+							boolean transactionCompleted = false;
+							while (!transactionCompleted) { // Keep looping until all transactions are completed
+								System.out.println("Enter number of desired action:");
+								System.out.println(
+										"1. Inquire Balance 2. Deposit 3. Withdrawal 4. Transer Money 5. Send Money 6. Exit");
+								String desiredAction = inputReader.readLine();
+								String moneyAction = "";
+								switch (desiredAction) {
+									case "1": // Inquire Balance
+										int desiredAccount = getDesiredAccount(true, inputReader);
+										if (desiredAccount == 1)
+											currentCustomer.getCheckingAccount().inquireBalance(); // Check checking balance
+										if (desiredAccount == 2)
+											currentCustomer.getSavingsAccount().inquireBalance(); // Check savings balance
+										if (desiredAccount == 3)
+											currentCustomer.getCreditAccount().inquireBalance(); // Check credit balance
+										if (desiredAccount != 1 && desiredAccount != 2 && desiredAccount != 3)
+											System.out.println("Error: No Balance inquired");
+										break;
+									case "2": // Deposit
+										boolean flag2 = true;
+										System.out.println("To which account would you like to perform this transaction?:");
+										desiredAccount = getDesiredAccount(true, inputReader);
+										System.out.print("Input amount you'd like to deposit: $");
 										moneyAction = inputReader.readLine();
-										flag2 = false;
-									}
-								} while (!flag2);
-								break;
-							case "3": // Withdrawal
-								boolean flag3 = true;
-								System.out.print("To which account would you like to perform this transaction?:");
-								desiredAccount = getDesiredAccount(false, inputReader);
-								System.out.print("Input amount you'd like to withdraw: $");
-								moneyAction = inputReader.readLine();
-								do {
-									if (Double.parseDouble(moneyAction) < currentCustomer.getCheckingAccount()
-											.getCurrentBalance()
-											&& Double.parseDouble(moneyAction) < currentCustomer.getSavingsAccount()
-													.getCurrentBalance()) {
-										if (desiredAccount == 1) { // Checking
-											currentCustomer.getCheckingAccount()
-													.sendMoney(Double.parseDouble(moneyAction), "Withdrawal");
-											transactionLog.write(currentCustomer.getName() + " withdrew $" + moneyAction
-													+ " in their checking.");
-											transactionLog.write("\r\n");
-											return;
-										}
-										if (desiredAccount == 2) { // Savings
-											currentCustomer.getSavingsAccount()
-													.sendMoney(Double.parseDouble(moneyAction), "Withdrawal");
-											transactionLog.write(currentCustomer.getName() + " withdrew $" + moneyAction
-													+ " in their savings.");
-											transactionLog.write("\r\n");
-											return;
-										} else {
-											System.out.println("Error: No Withdrawal made");
-										}
-									} else {
-										System.out.print("Invalid input, please enter a valid amount to continue:");
-										moneyAction = inputReader.readLine();
-										flag3 = false;
-									}
-								} while (!flag3);
-								break;
-							case "4": // Transfer Money
-
-								boolean checkAmountToTransfer = true;
-
-								System.out.println("Which account do you want to transfer from?:");
-								int transferFromAccount = getDesiredAccount(false, inputReader);
-								System.out.println();
-								System.out.print("How much would you like to transfer?: $");
-								moneyAction = inputReader.readLine();
-								System.out.println();
-								do {
-									if (Double.parseDouble(moneyAction) < currentCustomer.getCheckingAccount()
-											.getCurrentBalance()
-											&& Double.parseDouble(moneyAction) < currentCustomer.getSavingsAccount()
-													.getCurrentBalance()) {
-										if (transferFromAccount == 1)
-											currentCustomer.getCheckingAccount()
-													.sendMoney(Double.parseDouble(moneyAction), "Transfer");
-										if (transferFromAccount == 2)
-											currentCustomer.getSavingsAccount()
-													.sendMoney(Double.parseDouble(moneyAction), "Transfer");
-
-										System.out.print(
-												"Which account do you want to transfer $" + moneyAction + " to?:");
-										int transferToAccount = getDesiredAccount(true, inputReader);
-										System.out.println();
-										if (transferToAccount == 1) {
-											currentCustomer.getCheckingAccount()
-													.receiveMoney(Double.parseDouble(moneyAction), "Transfer");
-											transactionLog.write(currentCustomer.getName() + " transfered $"
-													+ moneyAction + " from savings to checking.");
-											transactionLog.write("\r\n");
-											return;
-										}
-
-										if (transferToAccount == 2) {
-											currentCustomer.getSavingsAccount()
-													.receiveMoney(Double.parseDouble(moneyAction), "Transfer");
-											transactionLog.write(currentCustomer.getName() + " transfered $"
-													+ moneyAction + " from checking to savings.");
-											transactionLog.write("\r\n");
-											return;
-										}
-
-										if (transferToAccount == 3 && currentCustomer.getCreditAccount()
-												.canReceive(Double.parseDouble(moneyAction))) {
-											currentCustomer.getCreditAccount()
-													.receiveMoney(Double.parseDouble(moneyAction), "Transfer");
-											if (transferFromAccount == 1) {
-												transactionLog.write(currentCustomer.getName() + " transfered $"
-														+ moneyAction + " from checking to credit.");
+										do {
+											if (desiredAccount == 1) { // Checking
+												currentCustomer.getCheckingAccount()
+														.receiveMoney(Double.parseDouble(moneyAction), "Deposit");
+												transactionLog.write(currentCustomer.getName() + " deposited $" + moneyAction
+														+ " in their checking.");
 												transactionLog.write("\r\n");
+												return;
+											}
+											if (desiredAccount == 2) { // Savings
+												currentCustomer.getSavingsAccount()
+														.receiveMoney(Double.parseDouble(moneyAction), "Deposit");
+												transactionLog.write(currentCustomer.getName() + " deposited $" + moneyAction
+														+ " in their savings.");
+												transactionLog.write("\r\n");
+												return;
+											}
+											if (desiredAccount == 3 && currentCustomer.getCreditAccount()
+													.canReceive(Double.parseDouble(moneyAction))) { // Credit
+												currentCustomer.getCreditAccount().receiveMoney(Double.parseDouble(moneyAction),
+														"Deposit");
+												transactionLog.write(currentCustomer.getName() + " deposited $" + moneyAction
+														+ " in their credit.");
+												transactionLog.write("\r\n");
+												return;
 											} else {
-												transactionLog.write(currentCustomer.getName() + " transfered $"
-														+ moneyAction + " from savings to credit.");
-												transactionLog.write("\r\n");
+												System.out.print(
+														"ERROR: Cannot deposit more than amount due. Please enter a valid amount:");
+												moneyAction = inputReader.readLine();
+												flag2 = false;
 											}
-											return;
-										}
-									} else {
-										System.out.print("Invalid input, please enter a valid amount to continue: ");
-										System.out.println();
+										} while (!flag2);
+										break;
+									case "3": // Withdrawal
+										boolean flag3 = true;
+										System.out.print("To which account would you like to perform this transaction?:");
+										desiredAccount = getDesiredAccount(false, inputReader);
+										System.out.print("Input amount you'd like to withdraw: $");
 										moneyAction = inputReader.readLine();
-										checkAmountToTransfer = false;
-									}
-								} while (!checkAmountToTransfer);
-								break;
-							case "5": // Send Money
-								boolean flag5 = true;
-								System.out.print("Which account would you like to send money from?: ");
-								desiredAccount = getDesiredAccount(false, inputReader);
-								System.out.println();
-								System.out.print("Enter customer ID of receiver: ");
-								String rC = inputReader.readLine();
-								do {
-									if (Double.parseDouble(rC) < data.size() + 1 && Double.parseDouble(rC) >= 0) { //FIXME: Try to do another way
-										Customer receivingCustomer = data.get(rC);
-										System.out.print("Which account would you like to send money to?: ");
-										int desiredReceiverAccount = getDesiredAccount(false, inputReader);
+										do {
+											if (Double.parseDouble(moneyAction) < currentCustomer.getCheckingAccount()
+													.getCurrentBalance()
+													&& Double.parseDouble(moneyAction) < currentCustomer.getSavingsAccount()
+															.getCurrentBalance()) {
+												if (desiredAccount == 1) { // Checking
+													currentCustomer.getCheckingAccount()
+															.sendMoney(Double.parseDouble(moneyAction), "Withdrawal");
+													transactionLog.write(currentCustomer.getName() + " withdrew $" + moneyAction
+															+ " in their checking.");
+													transactionLog.write("\r\n");
+													return;
+												}
+												if (desiredAccount == 2) { // Savings
+													currentCustomer.getSavingsAccount()
+															.sendMoney(Double.parseDouble(moneyAction), "Withdrawal");
+													transactionLog.write(currentCustomer.getName() + " withdrew $" + moneyAction
+															+ " in their savings.");
+													transactionLog.write("\r\n");
+													return;
+												} else {
+													System.out.println("Error: No Withdrawal made");
+												}
+											} else {
+												System.out.print("Invalid input, please enter a valid amount to continue:");
+												moneyAction = inputReader.readLine();
+												flag3 = false;
+											}
+										} while (!flag3);
+										break;
+									case "4": // Transfer Money
+
+										boolean checkAmountToTransfer = true;
+
+										System.out.println("Which account do you want to transfer from?:");
+										int transferFromAccount = getDesiredAccount(false, inputReader);
 										System.out.println();
-										System.out.print("Input amount you'd like to send: $");
+										System.out.print("How much would you like to transfer?: $");
 										moneyAction = inputReader.readLine();
 										System.out.println();
-										// from checking
-										if (desiredAccount == 1) {
-											currentCustomer.getCheckingAccount()
-													.sendMoney(Double.parseDouble(moneyAction), "Sent"); // Check
-											// to their checking
-											if (desiredReceiverAccount == 1) {
-												receivingCustomer.getCheckingAccount()
-														.receiveMoney(Double.parseDouble(moneyAction), "Deposit"); // Check
-												transactionLog.write(currentCustomer.getName() + " sent $" + moneyAction
-														+ " to " + receivingCustomer.getName());
-												transactionLog.write("\r\n");
-												return;
+										do {
+											if (Double.parseDouble(moneyAction) < currentCustomer.getCheckingAccount()
+													.getCurrentBalance()
+													&& Double.parseDouble(moneyAction) < currentCustomer.getSavingsAccount()
+															.getCurrentBalance()) {
+												if (transferFromAccount == 1)
+													currentCustomer.getCheckingAccount()
+															.sendMoney(Double.parseDouble(moneyAction), "Transfer");
+												if (transferFromAccount == 2)
+													currentCustomer.getSavingsAccount()
+															.sendMoney(Double.parseDouble(moneyAction), "Transfer");
+
+												System.out.print(
+														"Which account do you want to transfer $" + moneyAction + " to?:");
+												int transferToAccount = getDesiredAccount(true, inputReader);
+												System.out.println();
+												if (transferToAccount == 1) {
+													currentCustomer.getCheckingAccount()
+															.receiveMoney(Double.parseDouble(moneyAction), "Transfer");
+													transactionLog.write(currentCustomer.getName() + " transfered $"
+															+ moneyAction + " from savings to checking.");
+													transactionLog.write("\r\n");
+													return;
+												}
+
+												if (transferToAccount == 2) {
+													currentCustomer.getSavingsAccount()
+															.receiveMoney(Double.parseDouble(moneyAction), "Transfer");
+													transactionLog.write(currentCustomer.getName() + " transfered $"
+															+ moneyAction + " from checking to savings.");
+													transactionLog.write("\r\n");
+													return;
+												}
+
+												if (transferToAccount == 3 && currentCustomer.getCreditAccount()
+														.canReceive(Double.parseDouble(moneyAction))) {
+													currentCustomer.getCreditAccount()
+															.receiveMoney(Double.parseDouble(moneyAction), "Transfer");
+													if (transferFromAccount == 1) {
+														transactionLog.write(currentCustomer.getName() + " transfered $"
+																+ moneyAction + " from checking to credit.");
+														transactionLog.write("\r\n");
+													} else {
+														transactionLog.write(currentCustomer.getName() + " transfered $"
+																+ moneyAction + " from savings to credit.");
+														transactionLog.write("\r\n");
+													}
+													return;
+												}
+											} else {
+												System.out.print("Invalid input, please enter a valid amount to continue: ");
+												System.out.println();
+												moneyAction = inputReader.readLine();
+												checkAmountToTransfer = false;
 											}
-											// to their savings
-											if (desiredReceiverAccount == 2) {
-												receivingCustomer.getSavingsAccount()
-														.receiveMoney(Double.parseDouble(moneyAction), "Deposit"); // Check
-												transactionLog.write(currentCustomer.getName() + " sent $" + moneyAction
-														+ " to " + receivingCustomer.getName());
-												transactionLog.write("\r\n");
-												return;
+										} while (!checkAmountToTransfer);
+										break;
+									case "5": // Send Money
+										boolean flag5 = true;
+										System.out.print("Which account would you like to send money from?: ");
+										desiredAccount = getDesiredAccount(false, inputReader);
+										System.out.println();
+										System.out.print("Enter customer ID of receiver: ");
+										String rC = inputReader.readLine(); //Returning customer
+										do {
+											if (Double.parseDouble(rC) < data.size() + 1 && Double.parseDouble(rC) >= 0) { //FIXME: Try to do another way
+												Customer receivingCustomer = data.get(rC);
+												System.out.print("Which account would you like to send money to?: ");
+												int desiredReceiverAccount = getDesiredAccount(false, inputReader);
+												System.out.println();
+												System.out.print("Input amount you'd like to send: $");
+												moneyAction = inputReader.readLine();
+												System.out.println();
+												// from checking
+												if (desiredAccount == 1) {
+													currentCustomer.getCheckingAccount()
+															.sendMoney(Double.parseDouble(moneyAction), "Sent"); // Check
+													// to their checking
+													if (desiredReceiverAccount == 1) {
+														receivingCustomer.getCheckingAccount()
+																.receiveMoney(Double.parseDouble(moneyAction), "Deposit"); // Check
+														transactionLog.write(currentCustomer.getName() + " sent $" + moneyAction
+																+ " to " + receivingCustomer.getName());
+														transactionLog.write("\r\n");
+														return;
+													}
+													// to their savings
+													if (desiredReceiverAccount == 2) {
+														receivingCustomer.getSavingsAccount()
+																.receiveMoney(Double.parseDouble(moneyAction), "Deposit"); // Check
+														transactionLog.write(currentCustomer.getName() + " sent $" + moneyAction
+																+ " to " + receivingCustomer.getName());
+														transactionLog.write("\r\n");
+														return;
+													}
+												}
+												// from savings
+												if (desiredAccount == 2) {
+													currentCustomer.getSavingsAccount()
+															.sendMoney(Double.parseDouble(moneyAction), "Sent"); // Check
+													// to their checking
+													// to their checking
+													if (desiredReceiverAccount == 1) {
+														receivingCustomer.getCheckingAccount()
+																.receiveMoney(Double.parseDouble(moneyAction), "Deposit"); // Check
+														transactionLog.write(currentCustomer.getName() + " sent $" + moneyAction
+																+ " to " + receivingCustomer.getName());
+														transactionLog.write("\r\n");
+														return;
+													}
+													// to their savings
+													if (desiredReceiverAccount == 2) {
+														receivingCustomer.getSavingsAccount()
+																.receiveMoney(Double.parseDouble(moneyAction), "Deposit"); // Check
+														transactionLog.write(currentCustomer.getName() + " sent $" + moneyAction
+																+ " to " + receivingCustomer.getName());
+														transactionLog.write("\r\n");
+														return;
+													}
+												}
+											} else {
+												System.out.print("Invalid input, please enter a valid ID: ");
+												rC = inputReader.readLine();
+												flag5 = false;
 											}
-										}
-										// from savings
-										if (desiredAccount == 2) {
-											currentCustomer.getSavingsAccount()
-													.sendMoney(Double.parseDouble(moneyAction), "Sent"); // Check
-											// to their checking
-											// to their checking
-											if (desiredReceiverAccount == 1) {
-												receivingCustomer.getCheckingAccount()
-														.receiveMoney(Double.parseDouble(moneyAction), "Deposit"); // Check
-												transactionLog.write(currentCustomer.getName() + " sent $" + moneyAction
-														+ " to " + receivingCustomer.getName());
-												transactionLog.write("\r\n");
-												return;
-											}
-											// to their savings
-											if (desiredReceiverAccount == 2) {
-												receivingCustomer.getSavingsAccount()
-														.receiveMoney(Double.parseDouble(moneyAction), "Deposit"); // Check
-												transactionLog.write(currentCustomer.getName() + " sent $" + moneyAction
-														+ " to " + receivingCustomer.getName());
-												transactionLog.write("\r\n");
-												return;
-											}
-										}
-									} else {
-										System.out.print("Invalid input, please enter a valid ID: ");
-										rC = inputReader.readLine();
-										flag5 = false;
-									}
-								} while (!flag5);
-								break;
-							case "6":
-								System.out.println("Thank you, have a nice day!");
-								return; // return, because we are ending all operations
-							default: // Unrecognized character
-								System.out.println("Action not recognized.");
-								break;
+										} while (!flag5);
+										break;
+									case "6":
+										System.out.println("Thank you, have a nice day!");
+										return; // return, because we are ending all operations
+									default: // Unrecognized character
+										System.out.println("Action not recognized.");
+										break;
+								}
+							}
+						} else {
+							System.out.print("Incorrect password. Please try again: ");
+							verifyPassword = false;// set the verifyPassword to false
+							userPassword = inputReader.readLine(); // ask for the password again.
+							System.out.println();
 						}
-					}
-				} else {
-					System.out.print("Incorrect password. Please try again: ");
-					verifyPassword = false;// set the verifyPassword to false
-					userPassword = inputReader.readLine(); // ask for the password again.
-					System.out.println();
+					} while (!verifyPassword);// keep asking for the password if user enters the wrong password.
 				}
-			} while (!verifyPassword);// keep asking for the password if user enters the wrong password.
+			}
 		} catch (IOException e) {
 			System.out.println("Error: " + e);
 		}
