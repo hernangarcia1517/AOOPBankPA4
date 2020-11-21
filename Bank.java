@@ -122,7 +122,6 @@ public class Bank {
 									Double.parseDouble(VALS[inputCorrector.get("Credit Max")]),
 									Double.parseDouble(VALS[inputCorrector.get("Credit Starting Balance")]), 0.0) // Credit
 					));
-
 					customerIds.put(data.get(VALS[inputCorrector.get("Identification Number")]).getName(),
 							VALS[inputCorrector.get("Identification Number")]);
 					if (Integer.parseInt(VALS[inputCorrector.get("Identification Number")]) > customerIdTracker)
@@ -258,8 +257,8 @@ public class Bank {
 	 * @param inputReader    buffered reader that handles user input
 	 * @param transactionLog logs user transaction
 	 */
-	public static void runCreateCustomer(HashMap<String, Customer> data, HashMap<String, String> customerIds, BufferedReader inputReader,
-			Writer transactionLog) {
+	public static void runCreateCustomer(HashMap<String, Customer> data, HashMap<String, String> customerIds,
+			BufferedReader inputReader, Writer transactionLog) {
 		customerIdTracker++;// increase the number of IDs we have
 		try {
 			// Ask the user for its basic information
@@ -274,7 +273,7 @@ public class Bank {
 			String email = "";
 			String customerPhoneNumber = "";
 			boolean isInputEmpty = false;
-			while(!isInputEmpty){
+			while (!isInputEmpty) {
 				System.out.print("Enter First Name: ");
 				customerFirstName = inputReader.readLine();
 				System.out.println();
@@ -289,7 +288,7 @@ public class Bank {
 				System.out.println();
 				System.out.print("Enter Year of Birth: ");
 				customerBirthYear = inputReader.readLine();
-				customerDOB[0] = customerBirthMonth + " " + customerBirthDay; 
+				customerDOB[0] = customerBirthMonth + " " + customerBirthDay;
 				customerDOB[1] = customerBirthYear;
 				System.out.println();
 				System.out.print("Enter Address (Street, City, ZIP Code): ");
@@ -302,15 +301,13 @@ public class Bank {
 				System.out.print("Enter Phone Number: ");
 				customerPhoneNumber = inputReader.readLine();
 				System.out.println();
-				if(
-					customerFirstName.equals("") || customerLastName.equals("") ||
-					customerBirthMonth.equals("") || customerBirthDay.equals("") ||
-					customerBirthYear.equals("") || customerAddress.equals("") ||
-					email.equals("") || customerPhoneNumber.equals("")){
-						System.out.println("ERROR: One or more fields left empty, try again");
-						System.out.println();
-						System.out.println();
-				}else{
+				if (customerFirstName.equals("") || customerLastName.equals("") || customerBirthMonth.equals("")
+						|| customerBirthDay.equals("") || customerBirthYear.equals("") || customerAddress.equals("")
+						|| email.equals("") || customerPhoneNumber.equals("")) {
+					System.out.println("ERROR: One or more fields left empty, try again");
+					System.out.println();
+					System.out.println();
+				} else {
 					isInputEmpty = !isInputEmpty;
 				}
 			}
@@ -359,7 +356,8 @@ public class Bank {
 									savingsAccount, // createSavingsAccount(Integer.parseInt(VALS[10]),
 									creditAccount // Credit
 							));
-							customerIds.put(customerFirstName + " " + customerLastName, Integer.toString(customerIdTracker));
+							customerIds.put(customerFirstName + " " + customerLastName,
+									Integer.toString(customerIdTracker));
 							break;
 						case 2:// Creating an additional credit account
 							System.out.print("Enter Credit Starting Balance: $");
@@ -386,7 +384,8 @@ public class Bank {
 									savingsAccount1, // createSavingsAccount(Integer.parseInt(VALS[10]),
 									creditAccount1 // Credit
 							));
-							customerIds.put(customerFirstName + " " + customerLastName, Integer.toString(customerIdTracker));
+							customerIds.put(customerFirstName + " " + customerLastName,
+									Integer.toString(customerIdTracker));
 							break;
 						case 3:// Create an additional checking and credit account
 							System.out.print("Enter Checking Starting Balance: $");
@@ -396,20 +395,16 @@ public class Bank {
 							String creditStartingBalance1 = inputReader.readLine();
 							System.out.println();
 							// create the customer
-
 							// create savings account
 							Savings savingsAccount3 = createSavingsProcedure(savingsStartingBalance);
 							// Create Checking Account
 							Checking checkingAccount3 = createCheckingProcedure(checkingStartingBalance1);
 							// Create Credit Account
 							Credit creditAccount3 = createCreditProcedure(creditStartingBalance1);
-
 							data.put(Integer.toString(customerIdTracker), new Customer(customerFirstName, // First name
 									customerLastName, // Last name
 									Integer.toString(customerIdTracker), // Customer ID
-									password,
-									email,
-									true, // Has Checking
+									password, email, true, // Has Checking
 									true, // Has Savings
 									customerDOB, // Date of birth
 									customerPhoneNumber, // Phone number
@@ -418,7 +413,8 @@ public class Bank {
 									savingsAccount3, // createSavingsAccount(Integer.parseInt(VALS[10]),
 									creditAccount3 // Credit
 							));
-							customerIds.put(customerFirstName + " " + customerLastName, Integer.toString(customerIdTracker));
+							customerIds.put(customerFirstName + " " + customerLastName,
+									Integer.toString(customerIdTracker));
 							break;
 						default:// if the user does not enter a valid selection, ask for a valid selection until
 								// you get it
@@ -549,19 +545,22 @@ public class Bank {
 		try {
 			String accountNumber = "";
 			boolean isValidCustomer = false;
-			while(!isValidCustomer){
+			while (!isValidCustomer) {
 				System.out.print("Enter customerID number: ");
 				accountNumber = inputReader.readLine();
-				Customer currentCustomer = data.get(accountNumber); // Getting checking object (accountNumber is the key)
-				boolean verifyPassword = true; // boolean that checks if the password is correct, if false, it will ask the
+				Customer currentCustomer = data.get(accountNumber); // Getting checking object (accountNumber is the
+																	// key)
+				boolean verifyPassword = true; // boolean that checks if the password is correct, if false, it will ask
+												// the
 												// user for
 												// the password again.
 				System.out.println();
-				if(currentCustomer == null){
+				if (currentCustomer == null) {
 					System.out.println("ERROR: Customer does not exist, try again");
-				}else{
+				} else {
 					isValidCustomer = !isValidCustomer;
-					System.out.print("Welcome " + currentCustomer.getName() + ". Please enter your password to continue: ");
+					System.out.print(
+							"Welcome " + currentCustomer.getName() + ". Please enter your password to continue: ");
 					String userPassword = inputReader.readLine();
 					System.out.println();
 					do {
@@ -579,9 +578,11 @@ public class Bank {
 									case "1": // Inquire Balance
 										int desiredAccount = getDesiredAccount(true, inputReader);
 										if (desiredAccount == 1)
-											currentCustomer.getCheckingAccount().inquireBalance(); // Check checking balance
+											currentCustomer.getCheckingAccount().inquireBalance(); // Check checking
+																									// balance
 										if (desiredAccount == 2)
-											currentCustomer.getSavingsAccount().inquireBalance(); // Check savings balance
+											currentCustomer.getSavingsAccount().inquireBalance(); // Check savings
+																									// balance
 										if (desiredAccount == 3)
 											currentCustomer.getCreditAccount().inquireBalance(); // Check credit balance
 										if (desiredAccount != 1 && desiredAccount != 2 && desiredAccount != 3)
@@ -589,7 +590,8 @@ public class Bank {
 										break;
 									case "2": // Deposit
 										boolean flag2 = true;
-										System.out.println("To which account would you like to perform this transaction?:");
+										System.out.println(
+												"To which account would you like to perform this transaction?:");
 										desiredAccount = getDesiredAccount(true, inputReader);
 										System.out.print("Input amount you'd like to deposit: $");
 										moneyAction = inputReader.readLine();
@@ -597,25 +599,25 @@ public class Bank {
 											if (desiredAccount == 1) { // Checking
 												currentCustomer.getCheckingAccount()
 														.receiveMoney(Double.parseDouble(moneyAction), "Deposit");
-												transactionLog.write(currentCustomer.getName() + " deposited $" + moneyAction
-														+ " in their checking.");
+												transactionLog.write(currentCustomer.getName() + " deposited $"
+														+ moneyAction + " in their checking.");
 												transactionLog.write("\r\n");
 												return;
 											}
 											if (desiredAccount == 2) { // Savings
 												currentCustomer.getSavingsAccount()
 														.receiveMoney(Double.parseDouble(moneyAction), "Deposit");
-												transactionLog.write(currentCustomer.getName() + " deposited $" + moneyAction
-														+ " in their savings.");
+												transactionLog.write(currentCustomer.getName() + " deposited $"
+														+ moneyAction + " in their savings.");
 												transactionLog.write("\r\n");
 												return;
 											}
 											if (desiredAccount == 3 && currentCustomer.getCreditAccount()
 													.canReceive(Double.parseDouble(moneyAction))) { // Credit
-												currentCustomer.getCreditAccount().receiveMoney(Double.parseDouble(moneyAction),
-														"Deposit");
-												transactionLog.write(currentCustomer.getName() + " deposited $" + moneyAction
-														+ " in their credit.");
+												currentCustomer.getCreditAccount()
+														.receiveMoney(Double.parseDouble(moneyAction), "Deposit");
+												transactionLog.write(currentCustomer.getName() + " deposited $"
+														+ moneyAction + " in their credit.");
 												transactionLog.write("\r\n");
 												return;
 											} else {
@@ -628,44 +630,44 @@ public class Bank {
 										break;
 									case "3": // Withdrawal
 										boolean flag3 = true;
-										System.out.print("To which account would you like to perform this transaction?:");
+										System.out
+												.print("To which account would you like to perform this transaction?:");
 										desiredAccount = getDesiredAccount(false, inputReader);
 										System.out.print("Input amount you'd like to withdraw: $");
 										moneyAction = inputReader.readLine();
 										do {
 											if (Double.parseDouble(moneyAction) < currentCustomer.getCheckingAccount()
 													.getCurrentBalance()
-													&& Double.parseDouble(moneyAction) < currentCustomer.getSavingsAccount()
-															.getCurrentBalance()) {
+													&& Double.parseDouble(moneyAction) < currentCustomer
+															.getSavingsAccount().getCurrentBalance()) {
 												if (desiredAccount == 1) { // Checking
 													currentCustomer.getCheckingAccount()
 															.sendMoney(Double.parseDouble(moneyAction), "Withdrawal");
-													transactionLog.write(currentCustomer.getName() + " withdrew $" + moneyAction
-															+ " in their checking.");
+													transactionLog.write(currentCustomer.getName() + " withdrew $"
+															+ moneyAction + " in their checking.");
 													transactionLog.write("\r\n");
 													return;
 												}
 												if (desiredAccount == 2) { // Savings
 													currentCustomer.getSavingsAccount()
 															.sendMoney(Double.parseDouble(moneyAction), "Withdrawal");
-													transactionLog.write(currentCustomer.getName() + " withdrew $" + moneyAction
-															+ " in their savings.");
+													transactionLog.write(currentCustomer.getName() + " withdrew $"
+															+ moneyAction + " in their savings.");
 													transactionLog.write("\r\n");
 													return;
 												} else {
 													System.out.println("Error: No Withdrawal made");
 												}
 											} else {
-												System.out.print("Invalid input, please enter a valid amount to continue:");
+												System.out.print(
+														"Invalid input, please enter a valid amount to continue:");
 												moneyAction = inputReader.readLine();
 												flag3 = false;
 											}
 										} while (!flag3);
 										break;
 									case "4": // Transfer Money
-
 										boolean checkAmountToTransfer = true;
-
 										System.out.println("Which account do you want to transfer from?:");
 										int transferFromAccount = getDesiredAccount(false, inputReader);
 										System.out.println();
@@ -675,8 +677,8 @@ public class Bank {
 										do {
 											if (Double.parseDouble(moneyAction) < currentCustomer.getCheckingAccount()
 													.getCurrentBalance()
-													&& Double.parseDouble(moneyAction) < currentCustomer.getSavingsAccount()
-															.getCurrentBalance()) {
+													&& Double.parseDouble(moneyAction) < currentCustomer
+															.getSavingsAccount().getCurrentBalance()) {
 												if (transferFromAccount == 1)
 													currentCustomer.getCheckingAccount()
 															.sendMoney(Double.parseDouble(moneyAction), "Transfer");
@@ -684,8 +686,8 @@ public class Bank {
 													currentCustomer.getSavingsAccount()
 															.sendMoney(Double.parseDouble(moneyAction), "Transfer");
 
-												System.out.print(
-														"Which account do you want to transfer $" + moneyAction + " to?:");
+												System.out.print("Which account do you want to transfer $" + moneyAction
+														+ " to?:");
 												int transferToAccount = getDesiredAccount(true, inputReader);
 												System.out.println();
 												if (transferToAccount == 1) {
@@ -696,7 +698,6 @@ public class Bank {
 													transactionLog.write("\r\n");
 													return;
 												}
-
 												if (transferToAccount == 2) {
 													currentCustomer.getSavingsAccount()
 															.receiveMoney(Double.parseDouble(moneyAction), "Transfer");
@@ -722,7 +723,8 @@ public class Bank {
 													return;
 												}
 											} else {
-												System.out.print("Invalid input, please enter a valid amount to continue: ");
+												System.out.print(
+														"Invalid input, please enter a valid amount to continue: ");
 												System.out.println();
 												moneyAction = inputReader.readLine();
 												checkAmountToTransfer = false;
@@ -735,9 +737,10 @@ public class Bank {
 										desiredAccount = getDesiredAccount(false, inputReader);
 										System.out.println();
 										System.out.print("Enter customer ID of receiver: ");
-										String rC = inputReader.readLine(); //Returning customer
+										String rC = inputReader.readLine(); // Returning customer
 										do {
-											if (Double.parseDouble(rC) < data.size() + 1 && Double.parseDouble(rC) >= 0) { //FIXME: Try to do another way
+											if (Double.parseDouble(rC) < data.size() + 1
+													&& Double.parseDouble(rC) >= 0) { // FIXME: Try to do another way
 												Customer receivingCustomer = data.get(rC);
 												System.out.print("Which account would you like to send money to?: ");
 												int desiredReceiverAccount = getDesiredAccount(false, inputReader);
@@ -751,19 +754,19 @@ public class Bank {
 															.sendMoney(Double.parseDouble(moneyAction), "Sent"); // Check
 													// to their checking
 													if (desiredReceiverAccount == 1) {
-														receivingCustomer.getCheckingAccount()
-																.receiveMoney(Double.parseDouble(moneyAction), "Deposit"); // Check
-														transactionLog.write(currentCustomer.getName() + " sent $" + moneyAction
-																+ " to " + receivingCustomer.getName());
+														receivingCustomer.getCheckingAccount().receiveMoney(
+																Double.parseDouble(moneyAction), "Deposit"); // Check
+														transactionLog.write(currentCustomer.getName() + " sent $"
+																+ moneyAction + " to " + receivingCustomer.getName());
 														transactionLog.write("\r\n");
 														return;
 													}
 													// to their savings
 													if (desiredReceiverAccount == 2) {
-														receivingCustomer.getSavingsAccount()
-																.receiveMoney(Double.parseDouble(moneyAction), "Deposit"); // Check
-														transactionLog.write(currentCustomer.getName() + " sent $" + moneyAction
-																+ " to " + receivingCustomer.getName());
+														receivingCustomer.getSavingsAccount().receiveMoney(
+																Double.parseDouble(moneyAction), "Deposit"); // Check
+														transactionLog.write(currentCustomer.getName() + " sent $"
+																+ moneyAction + " to " + receivingCustomer.getName());
 														transactionLog.write("\r\n");
 														return;
 													}
@@ -775,19 +778,19 @@ public class Bank {
 													// to their checking
 													// to their checking
 													if (desiredReceiverAccount == 1) {
-														receivingCustomer.getCheckingAccount()
-																.receiveMoney(Double.parseDouble(moneyAction), "Deposit"); // Check
-														transactionLog.write(currentCustomer.getName() + " sent $" + moneyAction
-																+ " to " + receivingCustomer.getName());
+														receivingCustomer.getCheckingAccount().receiveMoney(
+																Double.parseDouble(moneyAction), "Deposit"); // Check
+														transactionLog.write(currentCustomer.getName() + " sent $"
+																+ moneyAction + " to " + receivingCustomer.getName());
 														transactionLog.write("\r\n");
 														return;
 													}
 													// to their savings
 													if (desiredReceiverAccount == 2) {
-														receivingCustomer.getSavingsAccount()
-																.receiveMoney(Double.parseDouble(moneyAction), "Deposit"); // Check
-														transactionLog.write(currentCustomer.getName() + " sent $" + moneyAction
-																+ " to " + receivingCustomer.getName());
+														receivingCustomer.getSavingsAccount().receiveMoney(
+																Double.parseDouble(moneyAction), "Deposit"); // Check
+														transactionLog.write(currentCustomer.getName() + " sent $"
+																+ moneyAction + " to " + receivingCustomer.getName());
 														transactionLog.write("\r\n");
 														return;
 													}
@@ -799,16 +802,16 @@ public class Bank {
 											}
 										} while (!flag5);
 										break;
-
-										case "6": // Generate Log
-										LogFile customerLogFile = new LogFile(currentCustomer);
-										customerLogFile.createLogFile(currentCustomer.getFirstName() + currentCustomer.getLastName());
+									case "6": // Generate Log
+										LogFile customerLogFile = new LogFile(currentCustomer);//creating a new log file
+										customerLogFile.createLogFile(
+												currentCustomer.getFirstName() + currentCustomer.getLastName());
 										break;
 
-									case "7":
+									case "7"://ending operations
 										System.out.println("Thank you, have a nice day!");
 										return; // return, because we are ending all operations
-									default: // Unrecognized character
+									default: // Unrecognized input
 										System.out.println("Action not recognized.");
 										break;
 								}
@@ -820,7 +823,7 @@ public class Bank {
 							System.out.println();
 						}
 					} while (!verifyPassword);// keep asking for the password if user enters the wrong password.
-				}//END Of while for valid customer
+				} // END Of while for valid customer
 			}
 		} catch (IOException e) {
 			System.out.println("Error: " + e);
@@ -844,8 +847,8 @@ public class Bank {
 				String desiredAction = inputReader.readLine();
 				switch (desiredAction) {
 					case "1":
-						boolean isValidIDC = false; //is ValidCustomer ID
-						while(!isValidIDC){
+						boolean isValidIDC = false; // is ValidCustomer ID
+						while (!isValidIDC) {
 							System.out.print("Enter first name of desired customer: ");
 							String customerFirstName = inputReader.readLine();
 							System.out.println();
@@ -853,11 +856,11 @@ public class Bank {
 							String customerLastName = inputReader.readLine();
 							String desiredCustomerId = customerIds.get(customerFirstName + " " + customerLastName);
 							Customer desiredCustomer = data.get(desiredCustomerId);
-							if(desiredCustomer == null){
+							if (desiredCustomer == null) {
 								System.out.println("ERROR: Customer does not exist.");
 								System.out.println();
 								System.out.println();
-							}else{
+							} else {
 								isValidIDC = !isValidIDC;
 								System.out.println();
 								System.out.println("Customer: " + desiredCustomer.getName());
@@ -874,26 +877,29 @@ public class Bank {
 						break;
 					case "2":
 						boolean isValidID = false;
-						while(!isValidID){
+						while (!isValidID) {
 							System.out.print("Enter first name of customer: ");
 							String statementCustomerFirstName = inputReader.readLine();
 							System.out.println();
 							System.out.print("Enter last name of customer: ");
 							String statementCustomerLastName = inputReader.readLine();
 							System.out.println();
-							String statementCustomerId = customerIds.get(statementCustomerFirstName + " " + statementCustomerLastName);
+							String statementCustomerId = customerIds
+									.get(statementCustomerFirstName + " " + statementCustomerLastName);
 							Customer statementCustomer = data.get(statementCustomerId);
-							if(statementCustomer == null){
+							if (statementCustomer == null) {
 								System.out.println("ERROR: Customer does not exist.");
 								System.out.println();
 								System.out.println();
-							}else{
+							} else {
 								isValidID = !isValidID;
 								BankStatement customerBankStatement = new BankStatement(statementCustomer);
-								customerBankStatement.createBankStatement(statementCustomerFirstName + statementCustomerLastName + "statement" + (new SimpleDateFormat("yyyy_MM_dd")).format(new Date()));
+								customerBankStatement.createBankStatement(
+										statementCustomerFirstName + statementCustomerLastName + "statement"
+												+ (new SimpleDateFormat("yyyy_MM_dd")).format(new Date()));
 							}
 						}
-									break;
+						break;
 					case "3":
 						for (String key : data.keySet()) {
 							Customer currentCustomer = data.get(key);
@@ -943,7 +949,7 @@ public class Bank {
 					String transactionAction = "";
 					String amount = "";
 					String[] TRANSACTION = currentTransaction.split(",");
-					for(int i = 0; i < TRANSACTION.length; i++){
+					for (int i = 0; i < TRANSACTION.length; i++) {
 						System.out.print(TRANSACTION[i] + " ");
 					}
 					System.out.println();
@@ -1179,7 +1185,6 @@ public class Bank {
 		// convert to objects again,
 		BufferedReader br = new BufferedReader(new FileReader("CS 3331 - Bank Users 4.csv"));
 		ArrayList<String> lines = new ArrayList<String>();
-
 		data.entrySet().forEach(entry -> {
 			lines.add(entry.getValue().getSavingsAccount().getAccountNumber() + "," + entry.getValue().getLastName()
 					+ "," + entry.getValue().getCustomerID() + ","
@@ -1194,10 +1199,8 @@ public class Bank {
 					+ "," + entry.getValue().getFirstName() + "," + entry.getValue().getEmail() + ","
 					+ entry.getValue().getCreditAccount().getCreditLimit());
 		});
-
 		try {
 			// creating sorted copy / printing to file:
-
 			Collections.sort(lines, new Comparator<String>() {
 				@Override
 				public int compare(String s1, String s2) {
@@ -1206,7 +1209,6 @@ public class Bank {
 					return s1i - s2i;
 				}
 			});
-
 			// create a BufferedWriter
 			// fileWriter set to false to overwrite the existing file
 			BufferedWriter outputFile = new BufferedWriter(new FileWriter("CS 3331 - Bank Users 4 - Copy.csv", false));
@@ -1219,7 +1221,6 @@ public class Bank {
 				outputFile.newLine();
 			}
 			outputFile.close();
-
 			if (br != null) {
 				try {
 					br.close();
