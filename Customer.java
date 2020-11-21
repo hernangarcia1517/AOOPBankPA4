@@ -4,7 +4,7 @@
  * @since November 9, 2020
  */
 
-public class Customer extends Person implements Printable{
+public class Customer extends Person implements Printable {
     private String phoneNumber;
     private String password;
     private String email;
@@ -14,24 +14,28 @@ public class Customer extends Person implements Printable{
     private Savings savingAccount;
     private Credit creditAccount;
 
-    Customer(){
-        //Default
+    Customer() {
+        // Default
     }
+
     /**
      * This is te constructor of customer
-     * @param firstName firstname of customer
-     * @param lastName last name of customer
-     * @param customerID the customer ID
-     * @param hasChecking whether the customer has a checking account
-     * @param hasSavings whether the customer has a savings account
-     * @param dateOfBirth date of birth of the customer
-     * @param phoneNumber customer's phone number
-     * @param address customer's address
+     * 
+     * @param firstName       firstname of customer
+     * @param lastName        last name of customer
+     * @param customerID      the customer ID
+     * @param hasChecking     whether the customer has a checking account
+     * @param hasSavings      whether the customer has a savings account
+     * @param dateOfBirth     date of birth of the customer
+     * @param phoneNumber     customer's phone number
+     * @param address         customer's address
      * @param checkingAccount Customer reference to checking account
-     * @param savingsAccount Customer reference to savings account
-     * @param creditAccount customer reference to credit account
+     * @param savingsAccount  Customer reference to savings account
+     * @param creditAccount   customer reference to credit account
      */
-    Customer(String firstName, String lastName, String customerID, String password, String email, boolean hasChecking, boolean hasSavings, String[] dateOfBirth, String phoneNumber, String[] address, Checking checkingAccount, Savings savingsAccount, Credit creditAccount){
+    Customer(String firstName, String lastName, String customerID, String password, String email, boolean hasChecking,
+            boolean hasSavings, String[] dateOfBirth, String phoneNumber, String[] address, Checking checkingAccount,
+            Savings savingsAccount, Credit creditAccount) {
         super(firstName, lastName, customerID, hasChecking, hasSavings);
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
@@ -42,46 +46,58 @@ public class Customer extends Person implements Printable{
         this.savingAccount = savingsAccount;
         this.creditAccount = creditAccount;
     }
+
     /**
      * Thismethod is to get the customer's phone number
+     * 
      * @return String, the phone number
      */
-    public String getPhoneNumber(){
+    public String getPhoneNumber() {
         return phoneNumber;
     }
+
     /**
      * This methos is to get the date of birth
+     * 
      * @return string array consisting of month day, year
      */
-    public String[] getDateOfBirth(){
+    public String[] getDateOfBirth() {
         return dateOfBirth;
     }
+
     /**
      * This method is to get the customer's address
+     * 
      * @return String array consisting of home address, city, state
      */
-    public String[] getAddress(){
+    public String[] getAddress() {
         return address;
     }
+
     /**
      * this method is to get the reference of the checking account
+     * 
      * @return checking account
      */
-    public Checking getCheckingAccount(){
+    public Checking getCheckingAccount() {
         return checkingAccount;
     }
+
     /**
      * this method is to get the reference of the savings account
+     * 
      * @return savings account
      */
-    public Savings getSavingsAccount(){
+    public Savings getSavingsAccount() {
         return savingAccount;
     }
+
     /**
      * this method is to get the reference of the credit account
+     * 
      * @return credit account
      */
-    public Credit getCreditAccount(){
+    public Credit getCreditAccount() {
         return creditAccount;
     }
 
@@ -89,7 +105,7 @@ public class Customer extends Person implements Printable{
      * This method is to print savings acccount balance
      */
     @Override
-    public void print(){
+    public void print() {
         System.out.println(super.getName() + "'s savings account:");
         System.out.println("Savings account balance: " + savingAccount.getCurrentBalance());
     }
@@ -98,11 +114,11 @@ public class Customer extends Person implements Printable{
      * This method is to print checking acccount balance
      */
     @Override
-    public void printChecking(){
-        if(checkingAccount != null){
+    public void printChecking() {
+        if (checkingAccount != null) {
             System.out.println(super.getName() + "'s checking account:");
             System.out.println("Checking account balance: " + checkingAccount.getCurrentBalance());
-        }else{
+        } else {
             System.out.println(super.getName() + " is not associated with a checking account.");
         }
     }
@@ -111,27 +127,31 @@ public class Customer extends Person implements Printable{
      * This method is to print credit acccount balance
      */
     @Override
-    public void printCredit(){
-        if(creditAccount != null){
+    public void printCredit() {
+        if (creditAccount != null) {
             System.out.println(super.getName() + "'s credit account:");
             System.out.println("Credit Limit:" + creditAccount.getCreditLimit());
             System.out.println("Outstanding Balance: " + creditAccount.getCurrentBalance());
-        }else{
+        } else {
             System.out.println(super.getName() + " is not associated with a credit account.");
         }
     }
+
     /**
      * this method is to get the reference of the password
+     * 
      * @return password
      */
-	public String getPassword() {
-		return password;
+    public String getPassword() {
+        return password;
     }
+
     /**
      * this method is to get the reference of the email account
+     * 
      * @return email account
      */
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+        return email;
+    }
 }
