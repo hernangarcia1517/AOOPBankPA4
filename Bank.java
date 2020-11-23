@@ -272,6 +272,7 @@ public class Bank {
 			String[] customerAddressArray = new String[2];
 			String email = "";
 			String customerPhoneNumber = "";
+			String password = "";
 			boolean isInputEmpty = false;
 			while (!isInputEmpty) {
 				System.out.print("Enter First Name: ");
@@ -301,9 +302,12 @@ public class Bank {
 				System.out.print("Enter Phone Number: ");
 				customerPhoneNumber = inputReader.readLine();
 				System.out.println();
+				System.out.print("Enter new password: ");
+				password = inputReader.readLine();
+				System.out.println();
 				if (customerFirstName.equals("") || customerLastName.equals("") || customerBirthMonth.equals("")
 						|| customerBirthDay.equals("") || customerBirthYear.equals("") || customerAddress.equals("")
-						|| email.equals("") || customerPhoneNumber.equals("")) {
+						|| email.equals("") || customerPhoneNumber.equals("") || password.equals("")) {
 					System.out.println("ERROR: One or more fields left empty, try again");
 					System.out.println();
 					System.out.println();
@@ -311,11 +315,21 @@ public class Bank {
 					isInputEmpty = !isInputEmpty;
 				}
 			}
-			System.out.print("Enter Savings Starting Balance: $ ");
-			String savingsStartingBalance = inputReader.readLine();
+			String savingsStartingBalance = "";
+			boolean isAWord = false;
+			while (!isAWord) {
+				System.out.print("Enter Savings Starting Balance: $ ");
+				savingsStartingBalance = inputReader.readLine();
+				System.out.println();
+				if (!isNumeric(savingsStartingBalance)) {
+					System.out.println("ERROR: invalid input, try again");
+					System.out.println();
+					System.out.println();
+				} else {
+					isAWord = !isAWord;
+				}
+			}
 			System.out.println();
-			System.out.print("Enter new password:");
-			String password = inputReader.readLine();
 			// let the user know the new password and ask the user if they would like to
 			// create an additional account.
 			System.out.println("Your account has been created. Please save your new password to log in : " + password);
@@ -325,7 +339,7 @@ public class Bank {
 			System.out.println();
 			if (createAdditional.equals("y")) {// User wants to create an additional account
 				System.out.print(
-						"1. To open new checking account 2. To open new credit account 3. To pen checking and credit account");
+						"1. To open new checking account 2. To open new credit account 3. To open checking and credit account");
 				System.out.println();
 				String createAnother = inputReader.readLine();
 				int createAnotherToInt = (Integer.valueOf(createAnother));
@@ -333,7 +347,7 @@ public class Bank {
 				do {
 					switch (createAnotherToInt) {// based on the user input create the appropiate account
 						case 1:// Creating an additional checking account
-							System.out.print("Enter Checking Starting Balance: $");
+							System.out.print("Enter Checking Starting Balance: $ ");
 							String checkingStartingBalance = inputReader.readLine();
 							System.out.println();
 							// create the customer
@@ -456,9 +470,9 @@ public class Bank {
 	}// END OF runCreateCustomer()
 
 	/**
-	 * This method acts like a helper method to the create a new user functionality
-	 * by allowing the program to give a checking account with the starting balance
-	 * provided to the user.
+	 * This method acts like a helper method to the create a new customer
+	 * functionality by allowing the program to give a checking account with the
+	 * starting balance provided to the user.
 	 * 
 	 * @param startingAmount value that holds the starting balance given by the
 	 *                       user.
@@ -803,12 +817,13 @@ public class Bank {
 										} while (!flag5);
 										break;
 									case "6": // Generate Log
-										LogFile customerLogFile = new LogFile(currentCustomer);//creating a new log file
+										LogFile customerLogFile = new LogFile(currentCustomer);// creating a new log
+																								// file
 										customerLogFile.createLogFile(
 												currentCustomer.getFirstName() + currentCustomer.getLastName());
 										break;
 
-									case "7"://ending operations
+									case "7":// ending operations
 										System.out.println("Thank you, have a nice day!");
 										return; // return, because we are ending all operations
 									default: // Unrecognized input
@@ -842,7 +857,7 @@ public class Bank {
 		try {
 			boolean transactionCompleted = false;
 			while (!transactionCompleted) {
-				System.out.print("1. Inquire customer by Name 2. Create Bank Statement 3. Print all accounts 4. Exit");
+				System.out.print("1. Inquire Customer by Name 2. Inquire Customer by Type 3.Create Bank Statement 4. Print All Accounts 4. Exit");
 				System.out.println();
 				String desiredAction = inputReader.readLine();
 				switch (desiredAction) {
@@ -876,6 +891,56 @@ public class Bank {
 						}
 						break;
 					case "2":
+						int accountType = 0;
+						System.out.print("Enter account type 1. Checking 2. Savings 3. Credit: ");
+						String accountTypeString = inputReader.readLine();
+						if (isNumeric(accountTypeString)) {// checks if the input provided is a number.
+							accountType = Integer.valueOf(accountTypeString);
+						}
+						System.out.println();
+						System.out.print("Enter account number: ");
+						int accountNumber = Integer.valueOf(inputReader.readLine());
+						System.out.println();
+
+						boolean isValidAccount = true;
+						do {
+							switch (accountType) {
+								case 1:// checking
+									int IDfromChecking = getIDFromCheckingNumber(accountNumber, data);
+									if (IDfromChecking == -1) {
+										System.out.println("ERROR! Account Not Found:");
+										System.out.println();
+									} else {
+										toString(IDfromChecking, data);
+									}
+									break;
+								case 2:
+									int IDfromSavings = getIDFromSavingsNumber(accountNumber, data);
+									if (IDfromSavings == -1) {
+										System.out.println("ERROR! Account Not Found:");
+										System.out.println();
+									} else {
+										toString(IDfromSavings, data);
+									}
+									break;
+								case 3:
+									int IDfromCredit = getIDFromCreditNumber(accountNumber, data);
+									if (IDfromCredit == -1) {
+										System.out.println("ERROR! Account Not Found:");
+										System.out.println();
+									} else {
+										toString(IDfromCredit, data);
+									}
+									break;
+								default:
+									// System.out.println();
+									isValidAccount = !isValidAccount;
+									System.out.println("ERROR! Account Not Found:");
+									System.out.println();
+							}
+						} while (!isValidAccount);
+						break;
+					case "3":
 						boolean isValidID = false;
 						while (!isValidID) {
 							System.out.print("Enter first name of customer: ");
@@ -900,7 +965,7 @@ public class Bank {
 							}
 						}
 						break;
-					case "3":
+					case "4":
 						for (String key : data.keySet()) {
 							Customer currentCustomer = data.get(key);
 							System.out.print("Customer: " + currentCustomer.getName());
@@ -913,7 +978,7 @@ public class Bank {
 							System.out.println();
 						}
 						break;
-					case "4":
+					case "5":
 						transactionCompleted = !transactionCompleted;
 						break;
 					default:
@@ -927,9 +992,84 @@ public class Bank {
 	}// END OF runBankManager()
 
 	/**
+	 * This method acts like a helper method for the inquire customer by the
+	 * checking account number, and if it exists, it retuns the id of the customer.
+	 * 
+	 * @param accountNumber value that holds the number of the account
+	 * @param data          this is the hashmap that contains the Customer
+	 *                      information
+	 * @return returns the ID of the user based on the information.
+	 */
+	public static int getIDFromCheckingNumber(int accountNumber, HashMap<String, Customer> data) {
+		int i = 1;// bc hashmap starts at 1:c
+		while (i <= customerIdTracker && accountNumber != 0) {// && accountNumber != 0 preventing ghost accounts to be
+																// checked
+			String number = Integer.toString(i);
+			Customer currentCustomer = data.get(number);
+			int valueToCheck = currentCustomer.getCheckingAccount().getAccountNumber();
+			if (accountNumber == valueToCheck) {
+				return Integer.valueOf(currentCustomer.getCustomerID());
+			} else {
+				i++;
+			}
+		}
+		return -1;// here -1 means that the id was not found
+	} // END OF getIDFromCheckingNumber()
+
+	/**
+	 * This method acts like a helper method for the inquire customer by the savings
+	 * account number, and if it exists, it retuns the id of the customer.
+	 * 
+	 * @param accountNumber value that holds the number of the account
+	 * @param data          this is the hashmap that contains the Customer
+	 *                      information
+	 * @return returns the ID of the user based on the information.
+	 */
+	public static int getIDFromSavingsNumber(int accountNumber, HashMap<String, Customer> data) {
+		int i = 1;// bc hashmap starts at 1:c
+		while (i <= customerIdTracker && accountNumber != 0) {
+			String number = Integer.toString(i);
+			Customer currentCustomer = data.get(number);
+			int valueToCheck = currentCustomer.getSavingsAccount().getAccountNumber();
+			if (accountNumber == valueToCheck) {
+				return Integer.valueOf(currentCustomer.getCustomerID());
+			} else {
+				i++;
+			}
+		}
+		return -1;// here -1 means that the id was not found
+	} // END OF getIDFromSavingsNumber()
+
+	/**
+	 * This method acts like a helper method for the inquire customer by the credit
+	 * account number, and if it exists, it retuns the id of the customer.
+	 * 
+	 * @param accountNumber value that holds the number of the account
+	 * @param data          this is the hashmap that contains the Customer
+	 *                      information
+	 * @return returns the ID of the user based on the information.
+	 */
+	public static int getIDFromCreditNumber(int accountNumber, HashMap<String, Customer> data) {
+		int i = 1;// bc hashmap starts at 1:c
+		while (i <= customerIdTracker && accountNumber != 0) {// && accountNumber != 0 preventing ghost accounts to be
+																// checked
+			String number = Integer.toString(i);
+			Customer currentCustomer = data.get(number);
+			int valueToCheck = currentCustomer.getCreditAccount().getAccountNumber();
+			if (accountNumber == valueToCheck) {
+				return Integer.valueOf(currentCustomer.getCustomerID());
+			} else {
+				i++;
+			}
+		}
+		return -1;// here -1 means that the id was not found
+	} // END OF getIDFromCreditNumber()
+
+	/**
 	 * This method reads transaction from a csv file
 	 * 
-	 * @param data           this is the user data
+	 * @param data           this is the hashmap that contains the Customer
+	 *                       information
 	 * @param customerIds    this is a hashmap of the customer names and their ids
 	 * @param transactionLog this is a log of the transactions
 	 */
@@ -1262,6 +1402,41 @@ public class Bank {
 			return false;
 		}
 	} // END of passwordMatch
+
+	/**
+	 * This method checks if a given String's value is numeric.
+	 * 
+	 * @param str the String to check.
+	 * @return true if the String is numeric
+	 */
+	public static boolean isNumeric(String str) {
+		try {
+			Double.parseDouble(str);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	} // END of isNumeric()
+
+	/**
+	 * This method prints the basic information of a user
+	 * 
+	 * @param ID   the ID number of the customer.
+	 * @param data hashmap that holds the information of the customers.
+	 */
+	public static void toString(int ID, HashMap<String, Customer> data) {
+		Customer currentCustomer = data.get(Integer.toString(ID));
+		System.out.println("Customer: " + currentCustomer.getName());
+		System.out.println();
+		System.out.print("Checking ");
+		currentCustomer.getCheckingAccount().inquireBalance();
+		System.out.print("Savings ");
+		currentCustomer.getSavingsAccount().inquireBalance();
+		System.out.print("Credit ");
+		currentCustomer.getCreditAccount().inquireBalance();
+		System.out.println();
+	}// END of toString()
+
 } // END OF class
 	// Mickey Mouse 000-00-0001
 	// Donald Duck 000-00-0002
