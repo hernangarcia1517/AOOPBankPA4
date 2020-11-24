@@ -958,7 +958,7 @@ public class Bank {
 								System.out.println();
 							} else {
 								isValidID = !isValidID;
-								BankStatement customerBankStatement = new BankStatement(statementCustomer);
+								BankStatement customerBankStatement = BankStatement.getBankStatementInstance(statementCustomer);
 								customerBankStatement.createBankStatement(
 										statementCustomerFirstName + statementCustomerLastName + "statement"
 												+ (new SimpleDateFormat("yyyy_MM_dd")).format(new Date()));

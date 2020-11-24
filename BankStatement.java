@@ -15,104 +15,116 @@ public class BankStatement implements Printable {
     Checking checking;
     Savings savings;
     Credit credit;
-
-    BankStatement() {
-        // Default
-    }
+    private static BankStatement bankStatementInstance = null;
 
     /**
-     * Constructor for the BankStatement class
+     * Constructor for the BankStatement class, it is private to prevent creating of more than
+     * one instance of this class
      * 
      * @param customer customer object
      */
-    BankStatement(Customer customer) {
+    private BankStatement(Customer customer) {
         this.customer = customer;
         this.checking = customer.getCheckingAccount();
         this.savings = customer.getSavingsAccount();
         this.credit = customer.getCreditAccount();
     }
-
+    /**
+     * This method prevent creating of more than one class
+     * @param customer a customer object is passed to create an instance of this class
+     * @return returning a BankStatement instance
+     */
+    public static BankStatement getBankStatementInstance(Customer customer){
+        if(bankStatementInstance == null){
+            bankStatementInstance = new BankStatement(customer);
+        }
+        return bankStatementInstance;
+    }
     /**
      * This method creates a bank statement for a customer
      * 
      * @param statementName takes in the name of a customer
      */
     public void createBankStatement(String statementName) {
-        FileWriter writer = null;
-        boolean hasChecking = false;
-        boolean hasCredit = false;
-        if (checking != null)
-            hasChecking = true;
-        if (credit != null)
-            hasCredit = true;
-        try {
-            print();
-            writer = new FileWriter(statementName + ".txt");
-            writer.write("BANK STATEMENT FOR:");
-            writer.write("\n");
-            writer.write(customer.getName());
-            writer.write("\n");
-            writer.write("Address: " + customer.getAddress()[0] + "," + customer.getAddress()[1] + ","
-                    + customer.getAddress()[2]);
-            writer.write("\n");
-            writer.write("Phone Number: " + customer.getPhoneNumber());
-            writer.write("\n");
-            writer.write("Current Account(s) Balance: ");
-            writer.write("\n");
-            if (checking != null) {
-                printChecking();
-                writer.write("Checking: " + checking.getCurrentBalance());
+        if(customer == null){
+            System.out.println("Customer is not valid");
+        }else{
+            FileWriter writer = null;
+            boolean hasChecking = false;
+            boolean hasCredit = false;
+            if (checking != null)
+                hasChecking = true;
+            if (credit != null)
+                hasCredit = true;
+            try {
+                print();
+                writer = new FileWriter(statementName + ".txt");
+                writer.write("BANK STATEMENT FOR:");
                 writer.write("\n");
-            }
-            writer.write("Savings: " + savings.getCurrentBalance());
-            writer.write("\n");
-            if (credit != null) {
-                printCredit();
-                writer.write("Credit: " + credit.getCurrentBalance());
+                writer.write(customer.getName());
                 writer.write("\n");
-            }
-            writer.write("Transaction Records:");
-            writer.write("\n");
-            if (hasChecking && hasCredit) {
-                if (savings.getTransactions().size() == 0 && checking.getTransactions().size() == 0
-                        && credit.getTransactions().size() == 0) {
-                    writer.write("No transactions this session.");
+                writer.write("Address: " + customer.getAddress()[0] + "," + customer.getAddress()[1] + ","
+                        + customer.getAddress()[2]);
+                writer.write("\n");
+                writer.write("Phone Number: " + customer.getPhoneNumber());
+                writer.write("\n");
+                writer.write("Current Account(s) Balance: ");
+                writer.write("\n");
+                if (checking != null) {
+                    printChecking();
+                    writer.write("Checking: " + checking.getCurrentBalance());
                     writer.write("\n");
                 }
-            }
-            if (hasChecking) {
-                ArrayList<String> checkingTransactions = checking.getTransactions();
-                for (int i = 0; i < checkingTransactions.size(); i++) {
-                    writer.write(customer.getName() + " " + checkingTransactions.get(i));
+                writer.write("Savings: " + savings.getCurrentBalance());
+                writer.write("\n");
+                if (credit != null) {
+                    printCredit();
+                    writer.write("Credit: " + credit.getCurrentBalance());
                     writer.write("\n");
                 }
-            }
-            ArrayList<String> savingsTransactions = savings.getTransactions();
-            for (int i = 0; i < savingsTransactions.size(); i++) {
-                writer.write(customer.getName() + " " + savingsTransactions.get(i));
+                writer.write("Transaction Records:");
                 writer.write("\n");
-            }
+                if (hasChecking && hasCredit) {
+                    if (savings.getTransactions().size() == 0 && checking.getTransactions().size() == 0
+                            && credit.getTransactions().size() == 0) {
+                        writer.write("No transactions this session.");
+                        writer.write("\n");
+                    }
+                }
+                if (hasChecking) {
+                    ArrayList<String> checkingTransactions = checking.getTransactions();
+                    for (int i = 0; i < checkingTransactions.size(); i++) {
+                        writer.write(customer.getName() + " " + checkingTransactions.get(i));
+                        writer.write("\n");
+                    }
+                }
+                ArrayList<String> savingsTransactions = savings.getTransactions();
+                for (int i = 0; i < savingsTransactions.size(); i++) {
+                    writer.write(customer.getName() + " " + savingsTransactions.get(i));
+                    writer.write("\n");
+                }
 
-            if (hasCredit) {
-                ArrayList<String> creditTransactions = credit.getTransactions();
-                for (int i = 0; i < creditTransactions.size(); i++) {
-                    writer.write(customer.getName() + " " + creditTransactions.get(i));
-                    writer.write("\n");
+                if (hasCredit) {
+                    ArrayList<String> creditTransactions = credit.getTransactions();
+                    for (int i = 0; i < creditTransactions.size(); i++) {
+                        writer.write(customer.getName() + " " + creditTransactions.get(i));
+                        writer.write("\n");
+                    }
                 }
-            }
-            writer.write("Date of records: " + (new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")).format(new Date())); // Could
-                                                                                                                  // cause
-                                                                                                                  // Issue
-        } catch (IOException e) {
-            System.out.println("Error" + e);
-            System.out.println("Bank Statement Not Created.");
-        } finally {
-            if (writer != null) {
-                try {
-                    writer.close();
-                    System.out.println("Bank Statement Created Successfully.");
-                } catch (IOException e) {
-                    System.out.println("Error" + e);
+                writer.write("Date of records: " + (new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")).format(new Date())); // Could
+                                                                                                                    // cause
+                                                                                                                    // Issue
+            } catch (IOException e) {
+                System.out.println("Error" + e);
+                System.out.println("Bank Statement Not Created.");
+            } finally {
+                if (writer != null) {
+                    try {
+                        writer.close();
+                        System.out.println("Bank Statement Created Successfully.");
+                    } catch (IOException e) {
+                        System.out.println("Error" + e);
+                    }
                 }
             }
         }
