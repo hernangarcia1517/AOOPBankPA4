@@ -573,7 +573,7 @@ public class Bank {
 					System.out.println("ERROR: Customer does not exist, try again");
 				} else {
 					if(currentCustomer == null){
-						throw new BankExceptions("Unexpected error: Customer not found"); // FIXME: Solve this piece of code
+						throw new BankExceptions("Unexpected error: Customer not found"); // FIXME: Solve this piece of
 					}
 					isValidCustomer = !isValidCustomer;
 					System.out.print(
@@ -648,7 +648,7 @@ public class Bank {
 									case "3": // Withdrawal
 										boolean flag3 = true;
 										System.out
-												.print("To which account would you like to perform this transaction?:");
+												.println("To which account would you like to perform this transaction?:");
 										desiredAccount = getDesiredAccount(false, inputReader);
 										System.out.print("Input amount you'd like to withdraw: $");
 										moneyAction = inputReader.readLine();
@@ -703,7 +703,7 @@ public class Bank {
 													currentCustomer.getSavingsAccount()
 															.sendMoney(Double.parseDouble(moneyAction), "Transfer");
 
-												System.out.print("Which account do you want to transfer $" + moneyAction
+												System.out.println("Which account do you want to transfer $" + moneyAction
 														+ " to?:");
 												int transferToAccount = getDesiredAccount(true, inputReader);
 												System.out.println();
@@ -750,7 +750,7 @@ public class Bank {
 										break;
 									case "5": // Send Money
 										boolean flag5 = true;
-										System.out.print("Which account would you like to send money from?: ");
+										System.out.println("Which account would you like to send money from?: ");
 										desiredAccount = getDesiredAccount(false, inputReader);
 										System.out.println();
 										System.out.print("Enter customer ID of receiver: ");
@@ -759,7 +759,7 @@ public class Bank {
 											if (Double.parseDouble(rC) < data.size() + 1
 													&& Double.parseDouble(rC) >= 0) { // FIXME: Try to do another way
 												Customer receivingCustomer = data.get(rC);
-												System.out.print("Which account would you like to send money to?: ");
+												System.out.println("Which account would you like to send money to?: ");
 												int desiredReceiverAccount = getDesiredAccount(false, inputReader);
 												System.out.println();
 												System.out.print("Input amount you'd like to send: $");
