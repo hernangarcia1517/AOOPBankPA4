@@ -48,7 +48,7 @@ public class Bank {
 	 * 
 	 * @param args arguments during run
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws BankExceptions{
 		BufferedReader br = null;
 		String currentUser = "";
 		HashMap<String, Customer> data = new HashMap<String, Customer>();// 20, 0.75f);
@@ -160,7 +160,7 @@ public class Bank {
 	 * @param transactionLog logs user transaction
 	 */
 	public static void runBankingApp(HashMap<String, Customer> data, HashMap<String, String> customerIds,
-			BufferedReader inputReader, Writer transactionLog) {
+			BufferedReader inputReader, Writer transactionLog) throws BankExceptions{
 		try {
 			inputReader = new BufferedReader(new InputStreamReader(System.in));
 			transactionLog = new BufferedWriter(
@@ -555,7 +555,7 @@ public class Bank {
 	 * @param inputReader    input reader which handles user input
 	 * @param transactionLog logs user transactions
 	 */
-	public static void runCustomer(HashMap<String, Customer> data, BufferedReader inputReader, Writer transactionLog) {
+	public static void runCustomer(HashMap<String, Customer> data, BufferedReader inputReader, Writer transactionLog) throws BankExceptions{
 		try {
 			String accountNumber = "";
 			boolean isValidCustomer = false;
@@ -572,6 +572,9 @@ public class Bank {
 				if (currentCustomer == null) {
 					System.out.println("ERROR: Customer does not exist, try again");
 				} else {
+					if(currentCustomer == null){
+						throw new BankExceptions("Unexpected error: Customer not found"); // FIXME: Solve this piece of code
+					}
 					isValidCustomer = !isValidCustomer;
 					System.out.print(
 							"Welcome " + currentCustomer.getName() + ". Please enter your password to continue: ");
